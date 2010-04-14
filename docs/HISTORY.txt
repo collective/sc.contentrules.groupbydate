@@ -1,0 +1,9 @@
+Changelog
+=========
+
+0.5 (2009-07-28)
+----------------
+    * Very earlier i18n support
+      [erico-andrei]
+    
+    * Initial release

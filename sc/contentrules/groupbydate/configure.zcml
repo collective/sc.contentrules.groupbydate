@@ -1,0 +1,45 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="sc.contentrules.groupbydate">
+
+    <five:registerPackage package="." initialize=".initialize" />
+    
+    <include package="plone.app.contentrules" />
+    
+    <utility
+      component=".vocabulary.HierarchiesVocabularyFactory"
+      name="sc.contentrules.groupbydate.vocabulary.hierarchies"
+      />
+   
+   <adapter factory=".actions.groupbydate.GroupByDateActionExecutor" />
+    
+   <browser:page 
+     for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
+     name="sc.contentrules.actions.groupbydate"
+     class=".actions.groupbydate.GroupByDateAddForm"
+     permission="cmf.ManagePortal"
+     />
+   
+   <browser:page 
+     for="sc.contentrules.groupbydate.interfaces.IGroupByDateAction"
+     name="edit"
+     class=".actions.groupbydate.GroupByDateEditForm"
+     permission="cmf.ManagePortal"
+     />
+   
+   <plone:ruleAction
+       name="sc.contentrules.actions.groupbydate"
+       title="Move an item to a date-based folder structure"
+       description="Move an item to a date-based folder structure."
+       for="*"
+       event="zope.component.interfaces.IObjectEvent"
+       addview="sc.contentrules.actions.groupbydate"
+       editview="edit"
+       schema=".actions.groupbydate.IGroupByDateAction"
+       factory=".actions.groupbydate.GroupByDateAction"
+       />
+       
+</configure>

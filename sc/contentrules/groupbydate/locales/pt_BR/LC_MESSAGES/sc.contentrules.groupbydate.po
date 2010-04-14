@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sc.contentrules.groupbydate\n"
+"POT-Creation-Date: 2009-04-20 17:27+0000\n"
+"PO-Revision-Date: 2009-04-20 14:28 -0300\n"
+"Last-Translator: Erico Andrei <erico@simplesconsultoria.com.br>\n"
+"Language-Team: Simples Consultoria <contato@simplesconsultoria.com.br>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: pt-br\n"
+"Language-Name: Português do Brasil\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: sc.contentrules.groupbydate\n"
+
+#: ../actions/groupbydate.py:117
+msgid "A content rules action to move an item to a folder structure."
+msgstr "Uma ação para as regras de conteúdo que move um conteúdo para dentro de uma estrutura de pastas."
+
+#: ../actions/groupbydate.py:116
+msgid "Add group by date folder action"
+msgstr "Adicionar ação de organização por data."
+
+#: ../actions/groupbydate.py:74
+msgid "Base folder ${target} does not exist."
+msgstr "Pasta base ${target} não existente."
+
+#: ../actions/groupbydate.py:118
+msgid "Configure element"
+msgstr "Configure o elemento"
+
+#: ../actions/groupbydate.py:131
+msgid "Edit group by date action"
+msgstr "Editar a ação de organização por data."
+
+#: ../actions/groupbydate.py:47
+msgid "Move the item under ${base_folder} using ${structure} structure"
+msgstr "Moveu o item para baixo de ${base_folder} usando a estrutura ${structure}"
+
