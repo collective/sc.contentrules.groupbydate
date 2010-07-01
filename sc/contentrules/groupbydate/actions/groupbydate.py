@@ -1,7 +1,7 @@
-
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
+from Acquisition import aq_parent
 from OFS.SimpleItem import SimpleItem
 from zope.component import adapts
 from zope.component import getUtility
@@ -60,30 +60,98 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         self.event = event
     
     def __call__(self):
+        '''  Executes action, moving content to a date based folder structure
+        '''
+        self._pstate = self.context.unrestrictedTraverse('@@plone_portal_state')
+        self._portal = self._pstate.portal()
+        self._portalPath = list(self._portal.getPhysicalPath())
+        
         # Get event object
         obj = self.event.object
         objDate = obj.getEffectiveDate() or obj.created()
-        # We must remove the first /
-        base_folder = self.element.base_folder[1:]
-        structure = self.element.structure
-        portal = getToolByName(self.context,'portal_url').getPortalObject()
         
-        folder = portal.unrestrictedTraverse(str(base_folder), None)
+        base_folder = self.element.base_folder
+        structure = self.element.structure
+        portal = self._pstate.portal()
+        
+        #
+        folder = self._base_folder(str(base_folder),obj)
         
         if folder is None:
             self.error(obj, _(u"Base folder ${target} does not exist.", mapping={'target' : base_folder}))
             return False
-        destination_folder = self._createFolderStructure(folder,structure,date=objDate)
-        self.element.target_folder = '%s/%s' % (base_folder,destination_folder)
+        
+        destFolder = self._createFolderStructure(folder,structure,date=objDate)
+        destFolderRelPath = self._relPathToPortal(destFolder)
+        
+        self.element.target_folder = '/'.join(destFolderRelPath)
         
         # Move object
         result = super(GroupByDateActionExecutor,self).__call__()
         self.element.target_folder = None
         return result
         
+    def _relPathToPortal(self,obj):
+        ''' Given an object we return it's relative path to portal
+        '''
+        portalPath = self._portalPath
+        return list(obj.getPhysicalPath())[len(portalPath):]
+        
+    def _base_folder(self,base_folder,obj):
+        ''' Given a base_folder string and the object triggering the event, we 
+            return the base object to be used by this action
+        '''
+        # Large portions of this code came from Products.ATContentTypes
+        # TODO: a package to deal with this kind of stuff (string to object?)
+        portalPath = self._portalPath
+        # sanitize a bit: you never know, with all those windoze users out there
+        relPath = base_folder.replace("\\","/")
+        
+        if relPath[0]=='/':
+            # someone didn't enter a relative path.
+            # let's go with it
+            path = relPath.split('/')[1:]
+        else:
+            folders = relPath.split('/')
+
+            # set the path to the object path
+            path = self._relPathToPortal(aq_parent(obj))
+
+            # now construct an aboslute path based on the relative custom path
+            # eat away from 'path' whenever we encounter a '..' in the relative path
+            # apend all other elements other than ..
+            for folder in folders:
+                if folder == '..':
+                    # chop off one level from path
+                    if path == []:
+                        # can't chop off more
+                        # just return this path and leave the loop
+                        break
+                    else:
+                        path = path[:-1]
+                elif folder == '.': 
+                    # don't really need this but for being complete
+                    # strictly speaking some user may use a . aswell
+                    pass # do nothing
+                else:
+                    path.append(folder)
+        
+        if not (path == []):
+            # As we will traverse from portal, there is no need to
+            # have its path in the way
+            path = '/'.join(path)
+            try:
+                baseFolder = self._portal.unrestrictedTraverse(path)
+            except AttributeError:
+                baseFolder = None
+            except KeyError:
+                baseFolder = None
+        else:
+            baseFolder = self._portal
+        return baseFolder
     
     def _createFolderStructure(self,folder,structure='ymd',date=None):
-        '''
+        ''' Create a folder structure and then return our innermost folder
         '''
         wt = getToolByName(self.context,'portal_workflow')
         if not date:
@@ -105,8 +173,8 @@ class GroupByDateActionExecutor(MoveActionExecutor):
             # XXX: Need to define a transition for this folder
             #wt.doActionFor(folder,'publish')
         
-        return date.strftime(dateFormat)
-
+        return folder
+    
 
 class GroupByDateAddForm(AddForm):
     """
