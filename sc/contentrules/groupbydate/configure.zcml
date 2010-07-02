@@ -15,14 +15,14 @@
     
     <!-- Profile -->
     <genericsetup:registerProfile
-        name="sc.contentrules.groupbydate"
+        name="default"
         title="Content rules: Date-based folder action"
         directory="profiles/default"
         description="Action for content rules that creates a date-based folder structure."
         provides="Products.GenericSetup.interfaces.EXTENSION"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         i18n:attributes="title; description"
-        />
+     />
     
     <include package=".upgrades" />
     

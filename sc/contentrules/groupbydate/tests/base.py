@@ -7,29 +7,31 @@ from Testing import ZopeTestCase as ztc
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import PloneSite
+from Products.PloneTestCase.layer import PloneSite, onsetup
 
 import sc.contentrules.groupbydate
 
 import Products.CMFPlacefulWorkflow
 
+@onsetup
+def setup_product():
+    fiveconfigure.debug_mode = True
+    zcml.load_config('configure.zcml',
+                     sc.contentrules.groupbydate)
+    zcml.load_config('configure.zcml',
+                     Products.CMFPlacefulWorkflow)
+    fiveconfigure.debug_mode = False
+
 class TestCase(ptc.PloneTestCase):
     class layer(PloneSite):
-        @classmethod
-        def setUp(cls):
-            fiveconfigure.debug_mode = True
-            zcml.load_config('configure.zcml',
-                             sc.contentrules.groupbydate)
-            zcml.load_config('configure.zcml',
-                             Products.CMFPlacefulWorkflow)
-            fiveconfigure.debug_mode = False
         
         @classmethod
         def tearDown(cls):
             pass
     
-
-ptc.setupPloneSite(products=['sc.contentrules.groupbydate'])
+setup_product()
+ptc.setupPloneSite(products=['sc.contentrules.groupbydate'],
+                   extension_profiles=['sc.contentrules.groupbydate:default',])
 
 def test_suite():
     return unittest.TestSuite([

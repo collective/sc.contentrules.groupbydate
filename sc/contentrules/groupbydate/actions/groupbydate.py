@@ -26,11 +26,15 @@ from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.actions.move import MoveActionExecutor
 
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+
 from DateTime import DateTime
 
 from sc.contentrules.groupbydate.interfaces import IGroupByDateAction
 
 from sc.contentrules.groupbydate.config import STRUCTURES
+
+from sc.contentrules.groupbydate.config import DEFAULTPOLICY
 
 from sc.contentrules.groupbydate import MessageFactory as _
 
@@ -174,14 +178,30 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         
         folderStructure = [str(p) for p in date.split('/')]
         
+        created = False
         for fId in folderStructure:
             if not fId in folder.objectIds():
                 _createObjectByType('Folder', folder, id=fId,
                                     title=fId, description=fId)
-            folder = folder[fId]
-        
+                folder = folder[fId]
+                created = True
+                self._addWorkflowPolicy(folder)
+            else:
+                folder = folder[fId]
+        if created:
+            # Update workflow mapping
+            getToolByName(self._portal, 'portal_workflow').updateRoleMappings()
         return folder
     
+    def _addWorkflowPolicy(self,folder,policy=DEFAULTPOLICY):
+        ''' After creating a new folder, add a workflow policy in it
+        '''
+        folder.manage_addProduct['CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
+        # Set the policy for the config
+        pc = getattr(folder, WorkflowPolicyConfig_id)
+        pc.setPolicyIn(policy)
+        
+        
 
 class GroupByDateAddForm(AddForm):
     """

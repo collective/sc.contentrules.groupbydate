@@ -12,4 +12,4 @@ STRUCTURES = (('ymd', _(u'Year/Month/Day')),
               ('y', _(u'Year')),
               )
 
-> DEFAULTPOLICY = 'one-state'
+DEFAULTPOLICY = 'groupbydate'

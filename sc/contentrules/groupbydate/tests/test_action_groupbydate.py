@@ -12,6 +12,9 @@ from plone.app.contentrules.rule import Rule
 
 from sc.contentrules.groupbydate.tests.base import TestCase
 
+from sc.contentrules.groupbydate.config import DEFAULTPOLICY
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+
 from zope.component.interfaces import IObjectEvent
 
 from Products.PloneTestCase.setup import default_user
@@ -196,6 +199,32 @@ class TestGroupByDateAction(TestCase):
         target_folder = self.portal.unrestrictedTraverse('%s/Y/04' % 
                                                           e.base_folder[1:])
         self.failUnless('d1' in target_folder.objectIds())
+    
+    def testPlacefulWorflow(self):
+        ''' validates if our folder structure is created with placeful workflow 
+            in it
+        '''
+        wt = self.portal.portal_workflow
+        wPID = WorkflowPolicyConfig_id
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+        e.structure = '%Y/%m/%d'
+        
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        self.assertEquals(True, ex())
+        
+        self.failIf('d1' in self.folder.objectIds())
+        target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' % 
+                                                          e.base_folder[1:])
+        self.failUnless('d1' in target_folder.objectIds())
+        
+        # @ folder 22
+        self.failUnless(wPID in target_folder.objectIds())
+        # @ folder 04
+        self.failUnless(wPID in target_folder.aq_parent.objectIds())
+        # @ folder 2009
+        self.failUnless(wPID in target_folder.aq_parent.aq_parent.objectIds())
+        self.failUnless(wt.getInfoFor(target_folder,'review_state')=='visible')
 
 def test_suite():
     from unittest import TestSuite, makeSuite

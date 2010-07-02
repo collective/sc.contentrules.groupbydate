@@ -1,9 +1,19 @@
 Changelog
 =========
 
+trunk (unreleased)
+------------------
+    
+    * Allow relative paths as base_folder [erico_andrei]
+    
+    * Allow inputing of strftime formatting for structure field [erico_andrei]
+    
+    * Add dependency of placeful workflow as we need it to avoid publishing 
+      content in an unpublished structure [erico_andrei]
+
+
 0.5 (2009-07-28)
 ----------------
-    * Very earlier i18n support
-      [erico-andrei]
+    * Very earlier i18n support [erico_andrei]
     
     * Initial release

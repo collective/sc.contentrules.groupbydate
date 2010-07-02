@@ -13,3 +13,11 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
+
+#: ./configure.zcml
+msgid "Content rules: Date-based folder action"
+msgstr ""
+
+#: ./configure.zcml
+msgid "Action for content rules that creates a date-based folder structure."
+msgstr ""
