@@ -3,58 +3,64 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="sc.contentrules.groupbydate">
 
     <five:registerPackage package="." initialize=".initialize" />
     
+    <i18n:registerTranslations directory="locales" />
+    
     <include package="plone.app.contentrules" />
     
-    <utility
-      component=".vocabulary.HierarchiesVocabularyFactory"
-      name="sc.contentrules.groupbydate.vocabulary.hierarchies"
+    <!-- Forms -->
+    <browser:page 
+      for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
+      name="sc.contentrules.actions.groupbydate"
+      class=".actions.groupbydate.GroupByDateAddForm"
+      permission="cmf.ManagePortal"
       />
-   
-   <adapter factory=".actions.groupbydate.GroupByDateActionExecutor" />
     
-   <browser:page 
-     for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
-     name="sc.contentrules.actions.groupbydate"
-     class=".actions.groupbydate.GroupByDateAddForm"
-     permission="cmf.ManagePortal"
-     />
-   
-   <browser:page 
-     for="sc.contentrules.groupbydate.interfaces.IGroupByDateAction"
-     name="edit"
-     class=".actions.groupbydate.GroupByDateEditForm"
-     permission="cmf.ManagePortal"
-     />
-   
-   <plone:ruleAction
-       name="sc.contentrules.actions.groupbydate"
-       title="Move an item to a date-based folder structure"
-       description="Move an item to a date-based folder structure."
-       for="*"
-       event="zope.component.interfaces.IObjectEvent"
-       addview="sc.contentrules.actions.groupbydate"
-       editview="edit"
-       schema=".actions.groupbydate.IGroupByDateAction"
-       factory=".actions.groupbydate.GroupByDateAction"
+    <browser:page 
+      for="sc.contentrules.groupbydate.interfaces.IGroupByDateAction"
+      name="edit"
+      class=".actions.groupbydate.GroupByDateEditForm"
+      permission="cmf.ManagePortal"
+      />
+    
+    <!-- Action -->
+    <adapter factory=".actions.groupbydate.GroupByDateActionExecutor" />
+    <plone:ruleAction
+        name="sc.contentrules.actions.groupbydate"
+        title="Move an item to a date-based folder structure"
+        description="Move an item to a date-based folder structure."
+        for="*"
+        event="zope.component.interfaces.IObjectEvent"
+        addview="sc.contentrules.actions.groupbydate"
+        editview="edit"
+        schema=".actions.groupbydate.IGroupByDateAction"
+        factory=".actions.groupbydate.GroupByDateAction"
+        i18n:attributes="title; description"
+        />
+    
+     <!-- Vocabularies -->
+     <utility
+       component=".vocabulary.HierarchiesVocabularyFactory"
+       name="sc.contentrules.groupbydate.vocabulary.hierarchies"
        />
-    <!-- Vocabularies -->
-    <adapter
-        for=".vocabulary.RelPathSearchableTextSource
-             zope.publisher.interfaces.browser.IBrowserRequest"
-        factory=".vocabulary.RelPathQSTSourceView"
-        provides="zope.app.form.browser.interfaces.ITerms"
-        />
-
-    <adapter
-        for=".vocabulary.RelPathSearchableTextSource
-             zope.publisher.interfaces.browser.IBrowserRequest"
-        factory=".vocabulary.RelPathQSTSourceView"
-        provides="zope.app.form.browser.interfaces.ISourceQueryView"
-        />
     
-       
+     <adapter
+         for=".vocabulary.RelPathSearchableTextSource
+              zope.publisher.interfaces.browser.IBrowserRequest"
+         factory=".vocabulary.RelPathQSTSourceView"
+         provides="zope.app.form.browser.interfaces.ITerms"
+         />
+    
+     <adapter
+         for=".vocabulary.RelPathSearchableTextSource
+              zope.publisher.interfaces.browser.IBrowserRequest"
+         factory=".vocabulary.RelPathQSTSourceView"
+         provides="zope.app.form.browser.interfaces.ISourceQueryView"
+         />
+    
+    
 </configure>
