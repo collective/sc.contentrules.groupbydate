@@ -3,6 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="sc.contentrules.groupbydate">
 
@@ -11,6 +12,19 @@
     <i18n:registerTranslations directory="locales" />
     
     <include package="plone.app.contentrules" />
+    
+    <!-- Profile -->
+    <genericsetup:registerProfile
+        name="sc.contentrules.groupbydate"
+        title="Content rules: Date-based folder action"
+        directory="profiles/default"
+        description="Action for content rules that creates a date-based folder structure."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        i18n:attributes="title; description"
+        />
+    
+    <include package=".upgrades" />
     
     <!-- Forms -->
     <browser:page 

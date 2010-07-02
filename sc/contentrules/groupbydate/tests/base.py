@@ -8,9 +8,10 @@ from Products.Five import zcml
 from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
-ptc.setupPloneSite()
 
 import sc.contentrules.groupbydate
+
+import Products.CMFPlacefulWorkflow
 
 class TestCase(ptc.PloneTestCase):
     class layer(PloneSite):
@@ -19,6 +20,8 @@ class TestCase(ptc.PloneTestCase):
             fiveconfigure.debug_mode = True
             zcml.load_config('configure.zcml',
                              sc.contentrules.groupbydate)
+            zcml.load_config('configure.zcml',
+                             Products.CMFPlacefulWorkflow)
             fiveconfigure.debug_mode = False
         
         @classmethod
@@ -26,6 +29,7 @@ class TestCase(ptc.PloneTestCase):
             pass
     
 
+ptc.setupPloneSite(products=['sc.contentrules.groupbydate'])
 
 def test_suite():
     return unittest.TestSuite([

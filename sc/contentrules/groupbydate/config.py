@@ -11,3 +11,5 @@ STRUCTURES = (('ymd', _(u'Year/Month/Day')),
               ('ym', _(u'Year/Month')),
               ('y', _(u'Year')),
               )
+
+> DEFAULTPOLICY = 'one-state'
