@@ -16,11 +16,11 @@ msgstr ""
 
 #: ./config.py:7
 msgid " One level up"
-msgstr " Pasta superior ao conteúdo"
+msgstr " Uma pasta acima do conteúdo"
 
 #: ./config.py:8
 msgid " Same folder of content"
-msgstr " Pasta do conteúdo"
+msgstr " Mesma pasta do conteúdo"
 
 #: ./actions/groupbydate.py:192
 msgid "A content rules action to move an item to a folder structure."
@@ -40,7 +40,7 @@ msgstr "Pasta base ${target} não existente."
 
 #: ./interfaces.py:34
 msgid "Choose the base folder for the date hierarchy."
-msgstr "Escolha o pasta base para a estrutura de datas"
+msgstr "Defina qual a pasta base para a hierarquia de pastas por data"
 
 #: ./actions/groupbydate.py:193
 msgid "Configure element"
@@ -52,7 +52,7 @@ msgstr "Editar a ação de organização por data."
 
 #: ./interfaces.py:40
 msgid "Hierarchy structure"
-msgstr "Formato da estrutura"
+msgstr "Estrutura de pastas"
 
 #: ./actions/groupbydate.py:50
 msgid "Move the item under ${base_folder} using ${structure} structure"
