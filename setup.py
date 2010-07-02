@@ -5,7 +5,7 @@ version = open(os.path.join("sc", "contentrules", "groupbydate", "version.txt"))
 
 setup(name='sc.contentrules.groupbydate',
       version=version,
-      description="A Plone content rules package that enables the creation of chronological archives.",
+      description="A Plone content rules action that creates a chronological archive.",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
