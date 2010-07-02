@@ -1,8 +1,14 @@
 Changelog
 =========
 
-trunk (unreleased)
+trunk (2010-07-02)
 ------------------
+
+* xxx [Simples Consultoria]
+
+
+1.0 (2010-07-02)
+----------------
     
     * Allow relative paths as base_folder [erico_andrei]
     
