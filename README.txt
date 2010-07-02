@@ -1,10 +1,14 @@
+.. contents:: Table of Contents
+   :depth: 2
+
 sc.contentrules.groupbydate
-===========================
+***************************
 
 Overview
 --------
-    sc.contentrules.groupbydate is a very basic content rule used to organize 
-    content under a chronological-based hierarchy on a web site upon publication.
+    sc.contentrules.groupbydate is a very basic content rule action used to 
+    organize content under a chronological-based hierarchy on a web site upon
+    publication.
 
 Base use case
 -------------
@@ -26,6 +30,8 @@ Requirements
 ------------
 
     * Plone 3.1 and above (http://plone.org/products/plone)
+    
+    * Products.CMFPlacefulWorkflow (http://plone.org/products/plone)
     
 Installation
 ------------
