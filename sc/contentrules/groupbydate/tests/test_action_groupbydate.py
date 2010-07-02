@@ -32,6 +32,7 @@ class TestGroupByDateAction(TestCase):
         self.login(default_user)
         self.folder.invokeFactory('Document', 'd1')
         self.folder.d1.setEffectiveDate(DateTime('2009/04/22'))
+        self.folder.invokeFactory('Folder', 'relativeTarget')
 
     def testRegistered(self): 
         element = getUtility(IRuleAction, name='sc.contentrules.actions.groupbydate')
@@ -139,6 +140,63 @@ class TestGroupByDateAction(TestCase):
         
         self.assertEquals(['d1'], list(target_folder.objectIds()))
         
+    def testExecuteWithRelativePath(self):
+        ''' Execute the action with a valid relative path
+        '''
+        e = GroupByDateAction()
+        # A sibling folder named relativeTarget
+        e.base_folder = './relativeTarget'
+        
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        self.assertEquals(True, ex())
+        
+        self.failIf('d1' in self.folder.objectIds())
+        target_folder = self.folder.relativeTarget.unrestrictedTraverse('2009/04/22')
+        self.failUnless('d1' in target_folder.objectIds())
+        
+    def testExecuteWithNonExistantRelativePath(self):
+        ''' Execute the action with a non existent relative path
+        '''
+        e = GroupByDateAction()
+        # An non existant folder
+        e.base_folder = '../relativeTarget'
+        
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        self.assertEquals(False, ex())
+        
+        self.failUnless('d1' in self.folder.objectIds())
+    
+    def testStrftimeFmt(self):
+        ''' Execute the action using a valid strftime formatting string
+        '''
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+        e.structure = '%Y/%m'
+        
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), 
+                             IExecutable)
+        self.assertEquals(True, ex())
+        
+        self.failIf('d1' in self.folder.objectIds())
+        target_folder = self.portal.unrestrictedTraverse('%s/2009/04' % 
+                                                         e.base_folder[1:])
+        self.failUnless('d1' in target_folder.objectIds())
+        
+    def testWrongStrftimeFmt(self):
+        ''' Execute the action using a typoed strftime formatting string
+        '''
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+        e.structure = 'Y/%m'
+        
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)), IExecutable)
+        self.assertEquals(True, ex())
+        
+        self.failIf('d1' in self.folder.objectIds())
+        target_folder = self.portal.unrestrictedTraverse('%s/Y/04' % 
+                                                          e.base_folder[1:])
+        self.failUnless('d1' in target_folder.objectIds())
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

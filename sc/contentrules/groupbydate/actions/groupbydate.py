@@ -29,6 +29,9 @@ from plone.app.contentrules.actions.move import MoveActionExecutor
 from DateTime import DateTime
 
 from sc.contentrules.groupbydate.interfaces import IGroupByDateAction
+
+from sc.contentrules.groupbydate.config import STRUCTURES
+
 from sc.contentrules.groupbydate import MessageFactory as _
 
 class GroupByDateAction(SimpleItem):
@@ -38,7 +41,7 @@ class GroupByDateAction(SimpleItem):
     implements(IGroupByDateAction, IRuleElementData)
     
     base_folder = ''
-    structure = 'ymd'
+    structure = '%Y/%m/%d'
     
     element = 'sc.contentrules.actions.groupbydate'
     
@@ -153,25 +156,29 @@ class GroupByDateActionExecutor(MoveActionExecutor):
     def _createFolderStructure(self,folder,structure='ymd',date=None):
         ''' Create a folder structure and then return our innermost folder
         '''
-        wt = getToolByName(self.context,'portal_workflow')
         if not date:
             date = DateTime()
-        if structure == 'ymd':
-            dateFormat = '%Y/%m/%d'
-        elif structure == 'ym':
-            dateFormat = '%Y/%m'
-        elif structure == 'y':
-            dateFormat = '%Y'
+            
+        # BBB:to avoid breaking old rules
+        if structure in [k for k,v in STRUCTURES]:
+            if structure == 'ymd':
+                dateFormat = '%Y/%m/%d'
+            elif structure == 'ym':
+                dateFormat = '%Y/%m'
+            elif structure == 'y':
+                dateFormat = '%Y'
         else:
-            return ''
-        folderStructure = [str(p) for p in date.strftime(dateFormat).split('/')]
+            dateFormat = structure
+        
+        date = date.strftime(dateFormat)
+        
+        folderStructure = [str(p) for p in date.split('/')]
+        
         for fId in folderStructure:
             if not fId in folder.objectIds():
                 _createObjectByType('Folder', folder, id=fId,
                                     title=fId, description=fId)
             folder = folder[fId]
-            # XXX: Need to define a transition for this folder
-            #wt.doActionFor(folder,'publish')
         
         return folder
     
