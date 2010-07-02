@@ -10,14 +10,11 @@ from plone.app.vocabularies.terms import BrowsableTerm
 from zope.app.form.browser.interfaces import ISourceQueryView, ITerms
 
 from zope.app.schema.vocabulary import IVocabularyFactory
-from sc.contentrules.config import RELPATHVOC
+from sc.contentrules.groupbydate.config import RELPATHVOC
+from sc.contentrules.groupbydate.config import STRUCTURES
 
 from sc.contentrules.groupbydate import MessageFactory as _
 
-structures = (('ymd', _(u'Year/Month/Day')),
-              ('ym', _(u'Year/Month')),
-              ('y', _(u'Year')),
-              )
 
 class HierarchiesVocabulary(object):
     """Vocabulary factory listing available hierarchies
@@ -28,7 +25,7 @@ class HierarchiesVocabulary(object):
     def __call__(self, context):
         terms = []
 
-        for key, title  in structures:
+        for key, title  in STRUCTURES:
             terms.append(
                 SimpleTerm(
                     key,
