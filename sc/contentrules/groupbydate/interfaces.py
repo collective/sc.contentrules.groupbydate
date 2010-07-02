@@ -8,9 +8,7 @@ from zope.schema import Bool
 
 from zope.schema.interfaces import ISource, IContextSourceBinder
 
-from plone.app.vocabularies.catalog import SearchableTextSourceBinder
-from plone.app.vocabularies.catalog import SearchableTextSource
-
+from sc.contentrules.groupbydate.vocabulary import RelPathSearchableTextSource as SearchableTextSource
 
 from sc.contentrules.groupbydate import MessageFactory as _
 
@@ -23,8 +21,9 @@ class SearchableTS(object):
     
     def __call__(self, context):
         context = getattr(context, 'context', context)
-        return SearchableTextSource(context, base_query=self.query.copy(),
-                                    default_query=self.default_query)
+        results = SearchableTextSource(context, base_query=self.query.copy(),
+                                       default_query=self.default_query)
+        return results
 
 
 class IGroupByDateAction(Interface):
@@ -34,7 +33,7 @@ class IGroupByDateAction(Interface):
                         description=_(u"Choose the base folder for the date hierarchy."),
                         required=True,
                         source=SearchableTS({'is_folderish' : True},
-                                                    default_query='path:')
+                                             default_query='path:')
                         )
     
     structure = Choice(title=_(u"Hierarchy structure"),

@@ -41,5 +41,20 @@
        schema=".actions.groupbydate.IGroupByDateAction"
        factory=".actions.groupbydate.GroupByDateAction"
        />
+    <!-- Vocabularies -->
+    <adapter
+        for=".vocabulary.RelPathSearchableTextSource
+             zope.publisher.interfaces.browser.IBrowserRequest"
+        factory=".vocabulary.RelPathQSTSourceView"
+        provides="zope.app.form.browser.interfaces.ITerms"
+        />
+
+    <adapter
+        for=".vocabulary.RelPathSearchableTextSource
+             zope.publisher.interfaces.browser.IBrowserRequest"
+        factory=".vocabulary.RelPathQSTSourceView"
+        provides="zope.app.form.browser.interfaces.ISourceQueryView"
+        />
+    
        
 </configure>
