@@ -5,6 +5,7 @@ from zope.interface import Interface
 from zope.schema import Choice
 from zope.schema import Text
 from zope.schema import Bool
+from zope.schema import TextLine
 
 from zope.schema.interfaces import ISource, IContextSourceBinder
 
@@ -36,9 +37,11 @@ class IGroupByDateAction(Interface):
                                              default_query='path:')
                         )
     
-    structure = Choice(title=_(u"Hierarchy structure"),
-                        description=_(u"Choose hierarchy structure."),
-                        required=True,
-                        vocabulary='sc.contentrules.groupbydate.vocabulary.hierarchies',
-                        )
+    structure = TextLine(title=_(u"Hierarchy structure"),
+                      description=_(u"""Choose hierarchy structure. Use strftime 
+                                        formating. e.g.: '%Y/%m/%d' to have 
+                                        2009/04/22 or '%Y/%m' to have 2009/04"""),
+                      required=True,
+                      default=u'%Y/%m/%d',
+                      )
     
