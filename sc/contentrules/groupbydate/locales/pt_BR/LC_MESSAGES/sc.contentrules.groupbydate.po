@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sc.contentrules.groupbydate\n"
-"POT-Creation-Date: 2009-04-20 17:27+0000\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: 2009-04-20 14:28 -0300\n"
 "Last-Translator: Erico Andrei <erico@simplesconsultoria.com.br>\n"
 "Language-Team: Simples Consultoria <contato@simplesconsultoria.com.br>\n"
@@ -14,27 +14,59 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: sc.contentrules.groupbydate\n"
 
-#: ../actions/groupbydate.py:117
+#: ./config.py:7
+msgid " One level up"
+msgstr " Pasta superior ao conteúdo"
+
+#: ./config.py:8
+msgid " Same folder of content"
+msgstr " Pasta do conteúdo"
+
+#: ./actions/groupbydate.py:192
 msgid "A content rules action to move an item to a folder structure."
 msgstr "Uma ação para as regras de conteúdo que move um conteúdo para dentro de uma estrutura de pastas."
 
-#: ../actions/groupbydate.py:116
+#: ./actions/groupbydate.py:191
 msgid "Add group by date folder action"
 msgstr "Adicionar ação de organização por data."
 
-#: ../actions/groupbydate.py:74
+#: ./interfaces.py:33
+msgid "Base folder"
+msgstr "Pasta base"
+
+#: ./actions/groupbydate.py:84
 msgid "Base folder ${target} does not exist."
 msgstr "Pasta base ${target} não existente."
 
-#: ../actions/groupbydate.py:118
+#: ./interfaces.py:34
+msgid "Choose the base folder for the date hierarchy."
+msgstr "Escolha o pasta base para a estrutura de datas"
+
+#: ./actions/groupbydate.py:193
 msgid "Configure element"
 msgstr "Configure o elemento"
 
-#: ../actions/groupbydate.py:131
+#: ./actions/groupbydate.py:206
 msgid "Edit group by date action"
 msgstr "Editar a ação de organização por data."
 
-#: ../actions/groupbydate.py:47
+#: ./interfaces.py:40
+msgid "Hierarchy structure"
+msgstr "Formato da estrutura"
+
+#: ./actions/groupbydate.py:50
 msgid "Move the item under ${base_folder} using ${structure} structure"
 msgstr "Moveu o item para baixo de ${base_folder} usando a estrutura ${structure}"
+
+#: ./config.py:12
+msgid "Year"
+msgstr "Ano"
+
+#: ./config.py:11
+msgid "Year/Month"
+msgstr "Ano/Mês"
+
+#: ./config.py:10
+msgid "Year/Month/Day"
+msgstr "Ano/Mês/Dia"
 
