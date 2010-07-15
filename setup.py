@@ -29,5 +29,7 @@ setup(name='sc.contentrules.groupbydate',
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
