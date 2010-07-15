@@ -1,10 +1,10 @@
 Changelog
 =========
 
-trunk (2010-07-02)
+trunk (2010-07-15)
 ------------------
 
-* xxx [Simples Consultoria]
+    * Added z3c.autoinclude entry point to mark this as a Plone plugin [Simples Consultoria]
 
 
 1.0 (2010-07-02)
