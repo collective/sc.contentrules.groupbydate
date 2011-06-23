@@ -46,7 +46,8 @@ To enable this product,on a buildout based installation:
         eggs = 
             sc.contentrules.groupbydate
 
-    2. Tell the plone.recipe.zope2instance recipe to install a ZCML slug::
+    2. For Plone 3.1 and Plone 3.2 tell the plone.recipe.zope2instance recipe 
+       to install a ZCML slug::
 
         [instance]
         ...
