@@ -2,6 +2,11 @@
 import itertools
 from zope.interface import implements
 
+try:
+    from zope.schema.interfaces import IVocabularyFactory
+except ImportError:
+    from zope.app.schema.vocabulary import IVocabularyFactory
+
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from plone.app.vocabularies.catalog import SearchableTextSource
 from plone.app.vocabularies.catalog import QuerySearchableTextSourceView
@@ -9,7 +14,6 @@ from plone.app.vocabularies.terms import BrowsableTerm
 
 from zope.app.form.browser.interfaces import ISourceQueryView, ITerms
 
-from zope.app.schema.vocabulary import IVocabularyFactory
 from sc.contentrules.groupbydate.config import RELPATHVOC
 from sc.contentrules.groupbydate.config import STRUCTURES
 
