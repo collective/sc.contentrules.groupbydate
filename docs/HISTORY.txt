@@ -1,10 +1,12 @@
 Changelog
 =========
 
-trunk (2010-07-15)
-------------------
+1.1 (2011-06-23)
+----------------
 
-    * Added z3c.autoinclude entry point to mark this as a Plone plugin [Simples Consultoria]
+    * Added z3c.autoinclude entry point to mark this as a Plone plugin [erico_andrei]
+    
+    * Support for Plone 4.1.x [erico_andrei]
 
 
 1.0 (2010-07-02)
