@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.1.1 (unreleased)
+1.1.1 (2011-08-22)
 ------------------
 
-    * Fix permission for Plone 4 [cleberjsantos]
+    * Fix permission for Plone 4.x [cleberjsantos]
 
 
 1.1 (2011-06-23)
