@@ -4,7 +4,7 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix permissions for pt-br [lepri]
 
 
 1.1.1 (2011-08-22)
