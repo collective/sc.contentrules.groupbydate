@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-02 12:39+0000\n"
+"POT-Creation-Date: 2011-11-17 13:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,79 +14,107 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./config.py:7
+#: ../config.py:7
 msgid " One level up"
 msgstr ""
 
-#: ./config.py:8
+#: ../config.py:8
 msgid " Same folder of content"
 msgstr ""
 
-#: ./actions/groupbydate.py:212
+#: ../actions/groupbydate.py:212
 msgid "A content rules action to move an item to a folder structure."
 msgstr ""
 
-#: ./configure.zcml
+#: ../configure.zcml
 msgid "Action for content rules that creates a date-based folder structure."
 msgstr ""
 
-#: ./actions/groupbydate.py:211
+#: ../actions/groupbydate.py:211
 msgid "Add group by date folder action"
 msgstr ""
 
-#: ./actions/groupbydate.py:88
+#: ../interfaces.py:33
+msgid "Base folder"
+msgstr ""
+
+#: ../actions/groupbydate.py:88
 msgid "Base folder ${target} does not exist."
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../interfaces.py:41
+msgid "Choose hierarchy structure. Use strftime formating. e.g.: '%Y/%m/%d' to have 2011/11/17 or '%Y/%m' to have 2011/11"
+msgstr ""
+
+#: ../interfaces.py:34
+msgid "Choose the base folder for the date hierarchy."
+msgstr ""
+
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr ""
 
-#: ./actions/groupbydate.py:213
+#: ../actions/groupbydate.py:213
 msgid "Configure element"
 msgstr ""
 
-#: ./configure.zcml
+#: ../configure.zcml
 msgid "Content rules: Date-based folder action"
 msgstr ""
 
-#: ./actions/groupbydate.py:226
+#: ../actions/groupbydate.py:226
 msgid "Edit group by date action"
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "Group by date Workflow for Folders"
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../interfaces.py:40
+msgid "Hierarchy structure"
+msgstr ""
+
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "Keeps visibility from folder above."
 msgstr ""
 
-#: ./actions/groupbydate.py:54
+#: ../actions/groupbydate.py:54
 msgid "Move the item under ${base_folder} using ${structure} structure"
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "Previous transition"
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "Public draft"
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "The ID of the user who performed the last transition"
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "Used to support sc.contentrules.groupbydate_workflow"
 msgstr ""
 
-#: ./profiles/default/workflows/groupbydate_workflow/definition.xml
+#: ../profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "When the previous transition was performed"
+msgstr ""
+
+#: ../config.py:12
+msgid "Year"
+msgstr ""
+
+#: ../config.py:11
+msgid "Year/Month"
+msgstr ""
+
+#: ../config.py:10
+msgid "Year/Month/Day"
 msgstr ""
 

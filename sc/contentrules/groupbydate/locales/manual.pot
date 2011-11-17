@@ -14,18 +14,10 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./configure.zcml
+#: ../configure.zcml
 msgid "Content rules: Date-based folder action"
 msgstr ""
 
-#: ./configure.zcml
+#: ../configure.zcml
 msgid "Action for content rules that creates a date-based folder structure."
-msgstr ""
-
-#: ./config.py:7
-msgid " One level up"
-msgstr ""
-
-#: ./config.py:8
-msgid " Same folder of content"
 msgstr ""

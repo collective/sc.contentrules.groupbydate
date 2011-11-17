@@ -38,9 +38,7 @@ class IGroupByDateAction(Interface):
                         )
     
     structure = TextLine(title=_(u"Hierarchy structure"),
-                      description=_(u"""Choose hierarchy structure. Use strftime 
-                                        formating. e.g.: '%Y/%m/%d' to have 
-                                        2009/04/22 or '%Y/%m' to have 2009/04"""),
+                      description=_(u"Choose hierarchy structure. Use strftime formating. e.g.: '%Y/%m/%d' to have 2011/11/17 or '%Y/%m' to have 2011/11"),
                       required=True,
                       default=u'%Y/%m/%d',
                       )
