@@ -75,7 +75,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         
         # Get event object
         obj = self.event.object
-        objDate = obj.getEffectiveDate() or obj.created()
+        objDate = obj.EffectiveDate() or obj.created()
         
         base_folder = self.element.base_folder
         structure = self.element.structure
