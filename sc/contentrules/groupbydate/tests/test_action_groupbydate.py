@@ -40,6 +40,9 @@ class TestGroupByDateAction(TestCase):
         self.folder.invokeFactory('Document', 'd1')
         self.folder.d1.setEffectiveDate(DateTime('2009/04/22'))
         self.folder.invokeFactory('Folder', 'relativeTarget')
+        o = Document('cmf', 'CMF Content', '', '', '')
+        o.setEffectiveDate(DateTime('2009/04/22'))
+        self.folder._setObject('cmf', o, suppress_events=True)
 
     def testRegistered(self):
         element = getUtility(IRuleAction,
@@ -250,6 +253,23 @@ class TestGroupByDateAction(TestCase):
         self.failUnless(wPID in target_folder.aq_parent.aq_parent.objectIds())
         review_state = wt.getInfoFor(target_folder, 'review_state')
         self.failUnless(review_state=='visible')
+
+    def testExecutionOnCMFContent(self):
+        ''' Tests if the rules works with CMF Content
+        '''
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+
+        o = self.folder['cmf']
+
+        ex = getMultiAdapter((self.folder, e, DummyEvent(o)),
+                             IExecutable)
+        self.assertEquals(True, ex())
+
+        self.failIf('cmf' in self.folder.objectIds())
+        target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
+                                                          e.base_folder[1:])
+        self.failUnless('cmf' in target_folder.objectIds())
 
 
 def test_suite():
