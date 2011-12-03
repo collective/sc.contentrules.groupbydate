@@ -1,31 +1,35 @@
+# -*- coding:utf-8 -*-
+from DateTime import DateTime
+
 from zope.interface import implements, Interface
 from zope.component import getUtility, getMultiAdapter
+from zope.component.interfaces import IObjectEvent
+
+from plone.app.contentrules.rule import Rule
 
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
 
-from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateAction
-from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateEditForm
+from Products.CMFDefault.Document import Document
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
+                                                       WorkflowPolicyConfig_id
 
-from plone.app.contentrules.rule import Rule
+from Products.PloneTestCase.setup import default_user
 
 from sc.contentrules.groupbydate.tests.base import TestCase
 
 from sc.contentrules.groupbydate.config import DEFAULTPOLICY
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateAction
+from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateEditForm
 
-from zope.component.interfaces import IObjectEvent
-
-from Products.PloneTestCase.setup import default_user
-
-from DateTime import DateTime
 
 class DummyEvent(object):
     implements(IObjectEvent)
-    
+
     def __init__(self, object):
         self.object = object
+
 
 class TestGroupByDateAction(TestCase):
 
