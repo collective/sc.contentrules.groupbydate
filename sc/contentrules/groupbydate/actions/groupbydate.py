@@ -75,7 +75,9 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         
         # Get event object
         obj = self.event.object
-        objDate = obj.EffectiveDate() or obj.created()
+        
+        # This should get us a DateTime or a datetime (dexterity)
+        objDate = obj.effective_date
         
         base_folder = self.element.base_folder
         structure = self.element.structure
