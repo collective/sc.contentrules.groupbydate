@@ -21,6 +21,9 @@ class Fixture(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'sc.contentrules.groupbydate:default')
+        wf = getattr(portal, 'portal_workflow')
+        types = ('Document', 'Folder', 'Link', 'Topic')
+        wf.setChainForPortalTypes(types, 'simple_publication_workflow')
 
 
 FIXTURE = Fixture()
