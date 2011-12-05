@@ -28,6 +28,9 @@ setup(name='sc.contentrules.groupbydate',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
+      extras_require={
+        'test': ['plone.app.testing'],
+        },
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
