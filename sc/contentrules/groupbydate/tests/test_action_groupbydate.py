@@ -1,5 +1,11 @@
 # -*- coding:utf-8 -*-
+
+import unittest2 as unittest
+
 from DateTime import DateTime
+
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 
 from zope.interface import implements, Interface
 from zope.component import getUtility, getMultiAdapter
@@ -15,14 +21,11 @@ from Products.CMFDefault.Document import Document
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
                                                        WorkflowPolicyConfig_id
 
-from Products.PloneTestCase.setup import default_user
-
-from sc.contentrules.groupbydate.tests.base import TestCase
-
 from sc.contentrules.groupbydate.config import DEFAULTPOLICY
 from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateAction
 from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateEditForm
 
+from sc.contentrules.groupbydate.testing import INTEGRATION_TESTING
 
 class DummyEvent(object):
     implements(IObjectEvent)
@@ -31,12 +34,16 @@ class DummyEvent(object):
         self.object = object
 
 
-class TestGroupByDateAction(TestCase):
+class TestGroupByDateAction(unittest.TestCase):
 
-    def afterSetUp(self):
-        self.loginAsPortalOwner()
+    layer = INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory('Folder', 'target')
-        self.login(default_user)
+        self.portal.invokeFactory('Folder', 'folder')
+        self.folder = self.portal['folder']
         self.folder.invokeFactory('Document', 'd1')
         self.folder.d1.setEffectiveDate(DateTime('2009/04/22'))
         self.folder.invokeFactory('Folder', 'relativeTarget')
@@ -105,7 +112,7 @@ class TestGroupByDateAction(TestCase):
         self.failIf('d1' in self.portal.target.objectIds())
 
     def testExecuteWithoutPermissionsOnTarget(self):
-        self.setRoles(('Member', ))
+        setRoles(self.portal, TEST_USER_ID, ['Member', ])
 
         e = GroupByDateAction()
         e.base_folder = '/target'
@@ -120,7 +127,7 @@ class TestGroupByDateAction(TestCase):
         self.failUnless('d1' in target_folder.objectIds())
 
     def testExecuteWithNamingConflict(self):
-        self.setRoles(('Manager', ))
+        setRoles(self.portal, TEST_USER_ID, ['Manager', ])
         target_folder_path = '2009/04/22'.split('/')
 
         target_folder = self.portal.target
@@ -130,7 +137,7 @@ class TestGroupByDateAction(TestCase):
             target_folder = target_folder[folder]
         target_folder.invokeFactory('Document', 'd1')
 
-        self.setRoles(('Member', ))
+        setRoles(self.portal, TEST_USER_ID, ['Member', ])
 
         e = GroupByDateAction()
         e.base_folder = '/target'
@@ -144,7 +151,7 @@ class TestGroupByDateAction(TestCase):
         self.failUnless('d1.1' in target_folder.objectIds())
 
     def testExecuteWithSameSourceAndTargetFolder(self):
-        self.setRoles(('Manager', ))
+        setRoles(self.portal, TEST_USER_ID, ['Manager', ])
         target_folder_path = '2009/04/22'.split('/')
 
         target_folder = self.portal.target
@@ -273,7 +280,4 @@ class TestGroupByDateAction(TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestGroupByDateAction))
-    return suite
+     return unittest.defaultTestLoader.loadTestsFromName(__name__)
