@@ -1,10 +1,14 @@
 Changelog
 =========
 
-1.1.2 (unreleased)
+1.2 (unreleased)
 ------------------
 
-- Fix permissions for pt-br [lepri]
+    * Move testing to plone.app.testing [ericof]
+
+    * Fix Dublin Core support [ericof]
+
+    * Fix permissions for pt-br [lepri]
 
 
 1.1.1 (2011-08-22)
