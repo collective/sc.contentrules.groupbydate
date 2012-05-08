@@ -4,46 +4,51 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Tested Plone 4.2 compatibility. [hvelarde]
+
+- Fixed package declaration and updated documentation. [hvelarde]
 
 
 1.2 (2011-12-06)
 ----------------
 
-    * Move testing to plone.app.testing [ericof]
+- Move testing to plone.app.testing [ericof]
 
-    * Fix Dublin Core support [ericof]
+- Fix Dublin Core support [ericof]
 
-    * Fix permissions for pt-br [lepri]
+- Fix permissions for pt-br [lepri]
 
 
 1.1.1 (2011-08-22)
 ------------------
 
-    * Fix permission for Plone 4.x [cleberjsantos]
+- Fix permission for Plone 4.x [cleberjsantos]
 
 
 1.1 (2011-06-23)
 ----------------
 
-    * Added z3c.autoinclude entry point to mark this as a Plone plugin [erico_andrei]
-    
-    * Support for Plone 4.1.x [erico_andrei]
+- Added z3c.autoinclude entry point to mark this as a Plone plugin
+  [erico_andrei]
+
+- Support for Plone 4.1.x [erico_andrei]
 
 
 1.0 (2010-07-02)
 ----------------
-    
-    * Allow relative paths as base_folder [erico_andrei]
-    
-    * Allow inputing of strftime formatting for structure field [erico_andrei]
-    
-    * Add dependency of placeful workflow as we need it to avoid publishing 
-      content in an unpublished structure [erico_andrei]
+
+- Allow relative paths as base_folder [erico_andrei]
+
+- Allow inputing of strftime formatting for structure field [erico_andrei]
+
+- Add dependency of placeful workflow as we need it to avoid publishing
+  content in an unpublished structure [erico_andrei]
 
 
 0.5 (2009-07-28)
 ----------------
-    * Very earlier i18n support [erico_andrei]
-    
-    * Initial release
+
+- Very earlier i18n support [erico_andrei]
+
+- Initial release
+
