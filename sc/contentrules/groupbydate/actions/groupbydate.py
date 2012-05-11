@@ -26,6 +26,7 @@ from plone.contentrules.rule.interfaces import IExecutable
 
 from plone.app.contentrules.actions.move import MoveActionExecutor
 
+# XXX: why do we depend on CMFPlacefulWorkflow?
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
 
 from DateTime import DateTime
