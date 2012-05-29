@@ -9,14 +9,14 @@
     i18n_domain="sc.contentrules.groupbydate">
 
     <five:registerPackage package="." initialize=".initialize" />
-    
+
     <i18n:registerTranslations directory="locales" />
 
     <!-- Plone 4: If you use the the cmf.ManagePortal permission for exemple.-->
     <include zcml:condition="have plone-4" package="Products.CMFCore" file="permissions.zcml" />
-   
+
     <include package="plone.app.contentrules" />
-    
+
     <!-- Profile -->
     <genericsetup:registerProfile
         name="default"
@@ -27,9 +27,9 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         i18n:attributes="title; description"
      />
-    
+
     <include package=".upgrades" />
-    
+
     <!-- Forms -->
     <browser:page 
       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
@@ -37,14 +37,14 @@
       class=".actions.groupbydate.GroupByDateAddForm"
       permission="cmf.ManagePortal"
       />
-    
+
     <browser:page 
       for="sc.contentrules.groupbydate.interfaces.IGroupByDateAction"
       name="edit"
       class=".actions.groupbydate.GroupByDateEditForm"
       permission="cmf.ManagePortal"
       />
-    
+
     <!-- Action -->
     <adapter factory=".actions.groupbydate.GroupByDateActionExecutor" />
     <plone:ruleAction
@@ -59,26 +59,30 @@
         factory=".actions.groupbydate.GroupByDateAction"
         i18n:attributes="title; description"
         />
-    
+
      <!-- Vocabularies -->
      <utility
        component=".vocabulary.HierarchiesVocabularyFactory"
        name="sc.contentrules.groupbydate.vocabulary.hierarchies"
        />
-    
+
+    <utility
+       component=".vocabulary.ContainerSearcherFactory"
+       name="sc.contentrules.groupbydate.vocabulary.containers"
+       />
+
      <adapter
          for=".vocabulary.RelPathSearchableTextSource
               zope.publisher.interfaces.browser.IBrowserRequest"
          factory=".vocabulary.RelPathQSTSourceView"
          provides="zope.app.form.browser.interfaces.ITerms"
          />
-    
+
      <adapter
          for=".vocabulary.RelPathSearchableTextSource
               zope.publisher.interfaces.browser.IBrowserRequest"
          factory=".vocabulary.RelPathQSTSourceView"
          provides="zope.app.form.browser.interfaces.ISourceQueryView"
          />
-    
-    
+
 </configure>
