@@ -114,7 +114,7 @@ class ContainerSearcher(object):
 
             if item:
                 if IFolderish.providedBy(item):
-                    new_list.append(SimpleTerm(site_type.getId().lower(),
+                    new_list.append(SimpleTerm(site_type.getId(),
                                     site_type.getId()))
                 del site['item']
         return SimpleVocabulary(new_list)
