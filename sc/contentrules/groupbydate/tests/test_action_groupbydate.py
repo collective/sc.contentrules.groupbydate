@@ -20,6 +20,7 @@ from plone.contentrules.rule.interfaces import IExecutable
 from Products.CMFDefault.Document import Document
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
                                                        WorkflowPolicyConfig_id
+from Products.ATContentTypes.content.topic import ATTopic
 
 from sc.contentrules.groupbydate.config import DEFAULTPOLICY
 from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateAction
@@ -90,6 +91,7 @@ class TestGroupByDateAction(unittest.TestCase):
     def testExecute(self):
         e = GroupByDateAction()
         e.base_folder = '/target'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -103,6 +105,7 @@ class TestGroupByDateAction(unittest.TestCase):
     def testExecuteWithError(self):
         e = GroupByDateAction()
         e.base_folder = '/dummy'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -116,6 +119,7 @@ class TestGroupByDateAction(unittest.TestCase):
 
         e = GroupByDateAction()
         e.base_folder = '/target'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -141,6 +145,7 @@ class TestGroupByDateAction(unittest.TestCase):
 
         e = GroupByDateAction()
         e.base_folder = '/target'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -165,6 +170,7 @@ class TestGroupByDateAction(unittest.TestCase):
 
         e = GroupByDateAction()
         e.base_folder = '/target'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((target_folder, e, DummyEvent(target_folder.d1)),
                              IExecutable)
@@ -178,6 +184,7 @@ class TestGroupByDateAction(unittest.TestCase):
         e = GroupByDateAction()
         # A sibling folder named relativeTarget
         e.base_folder = './relativeTarget'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -194,6 +201,7 @@ class TestGroupByDateAction(unittest.TestCase):
         e = GroupByDateAction()
         # An non existant folder
         e.base_folder = '../relativeTarget'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -201,12 +209,27 @@ class TestGroupByDateAction(unittest.TestCase):
 
         self.failUnless('d1' in self.folder.objectIds())
 
+    def testExecuteDifferentContainer(self):
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+        e.container = 'Topic'
+
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        self.assertEquals(True, ex())
+
+        self.failIf('d1' in self.folder.objectIds())
+        target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
+                                                          e.base_folder[1:])
+        self.assertTrue(isinstance(target_folder, ATTopic))
+        
     def testStrftimeFmt(self):
         ''' Execute the action using a valid strftime formatting string
         '''
         e = GroupByDateAction()
         e.base_folder = '/target'
         e.structure = '%Y/%m'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -223,6 +246,7 @@ class TestGroupByDateAction(unittest.TestCase):
         e = GroupByDateAction()
         e.base_folder = '/target'
         e.structure = 'Y/%m'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -242,6 +266,7 @@ class TestGroupByDateAction(unittest.TestCase):
         e = GroupByDateAction()
         e.base_folder = '/target'
         e.structure = '%Y/%m/%d'
+        e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
@@ -266,6 +291,7 @@ class TestGroupByDateAction(unittest.TestCase):
         '''
         e = GroupByDateAction()
         e.base_folder = '/target'
+        e.container = 'Folder'
 
         o = self.folder['cmf']
 

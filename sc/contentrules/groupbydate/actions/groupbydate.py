@@ -15,6 +15,8 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.utils import _createObjectByType
 
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
 
@@ -188,12 +190,21 @@ class GroupByDateActionExecutor(MoveActionExecutor):
                 folder = folder[fId]
                 folder.setLayout(default_view)
                 created = True
+                self._addWorkflowPolicy(folder)
             else:
                 folder = folder[fId]
         if created:
             # Update workflow mapping
             getToolByName(self._portal, 'portal_workflow').updateRoleMappings()
         return folder
+
+    def _addWorkflowPolicy(self,folder,policy=DEFAULTPOLICY):
+        ''' After creating a new folder, add a workflow policy in it
+        '''
+        folder.manage_addProduct['CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
+        # Set the policy for the config
+        pc = getattr(folder, WorkflowPolicyConfig_id)
+        pc.setPolicyIn(policy)
 
 
 class GroupByDateAddForm(AddForm):

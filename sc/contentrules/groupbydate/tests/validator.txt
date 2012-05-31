@@ -1,0 +1,37 @@
+Functional test:
+
+    >>> app = layer['app']
+    >>> portal = layer['portal']
+    >>> request = layer['request']
+
+    >>> from plone.testing.z2 import Browser
+    >>> browser = Browser(app)
+    >>> portalURL = portal.absolute_url()
+
+    >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
+    >>> browser.open(portalURL + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+    >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
+    >>> browser.getControl(name='submit').click()
+
+    >>> 'You are now logged in' in browser.contents
+    True
+
+Test view validation:
+
+    >>> browser.getLink('Site Setup').click()
+    >>> browser.getLink('Content Rules').click()
+    >>> browser.getControl('Add content rule').click()
+    >>> browser.getControl('Title').value = 'Testing rule'
+    >>> trigger = browser.getControl('Triggering event')
+    >>> trigger.getControl('Workflow state changed').selected = True
+    >>> browser.getControl('Save').click()
+    >>> browser.getLink('Testing rule (Workflow state changed)').click()
+    >>> action_button = browser.getControl('Add action')
+    >>> action_button.getControl('Move an item to a date-based folder structure').selected = True
+    >>> browser.getControl(name='form.button.AddAction').click()
+    >>> browser.getControl('Apply').click()
+    >>> browser.getControl('Default View').value = 'non-available-view'
+    >>> browser.getControl('Save').click()
+    >>> 'Error' in browser.contents
+    True
