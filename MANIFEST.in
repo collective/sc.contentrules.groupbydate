@@ -1,4 +1,6 @@
-include *
+include *.txt
+
 recursive-include sc *
 recursive-include docs *
+
 global-exclude *pyc
