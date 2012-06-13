@@ -4,6 +4,8 @@ Changelog
 1.3 (unreleased)
 ----------------
 
+- Added Spanish and updated Brazilian Portuguese translations. [hvelarde]
+
 - Tested Plone 4.2 compatibility. [hvelarde]
 
 - Fixed package declaration and updated documentation. [hvelarde]

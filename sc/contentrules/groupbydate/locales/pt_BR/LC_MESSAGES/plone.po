@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sc.contentrules.groupbydate\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2009-02-27 17:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -14,10 +14,3 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../configure.zcml
-msgid "Content rules: Date-based folder action"
-msgstr ""
-
-#: ../configure.zcml
-msgid "Action for content rules that creates a date-based folder structure."
-msgstr ""
