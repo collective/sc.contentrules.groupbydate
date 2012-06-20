@@ -101,21 +101,14 @@ class ContainerSearcher(object):
         pt = getToolByName(site, 'portal_types')
         types = pt.listTypeInfo()
         for site_type in types:
-            if 'item' in site.keys():
-                del site['item']
-
-            try:
-                item = site_type._constructInstance(site, 'item')
-            except (TypeError, ValueError):
-                item = None
-                logger.info('There is a problem to see if %s is Folderish' %
-                            site_type)
-                pass
-
-            if item:
+            if site_type.global_allow is True:
+                type_id = site_type.getId()
+                site.invokeFactory(type_id, 'item')
+                item = site['item']
                 if IFolderish.providedBy(item):
-                    new_list.append(SimpleTerm(site_type.getId(),
-                                    site_type.getId()))
+                        new_list.append(SimpleTerm(type_id,
+                                        type_id))
+
                 del site['item']
         return SimpleVocabulary(new_list)
 
