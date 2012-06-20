@@ -10,6 +10,15 @@ Changelog
 
 - Fixed package declaration and updated documentation. [hvelarde]
 
+- Adding option so user can select the content type used as container. [aleGpereira]
+
+- Adding a field to set a prefer view method for container. [aleGpereira]
+
+- Adding integrational and functional test for view validator and container object creation. [aleGpereira]
+
+- Update README documentation. [aleGpereira]
+
+
 
 1.2 (2011-12-06)
 ----------------
