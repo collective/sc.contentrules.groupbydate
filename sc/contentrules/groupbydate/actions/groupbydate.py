@@ -29,7 +29,7 @@ from plone.app.contentrules.actions.move import MoveActionExecutor
 
 from DateTime import DateTime
 
-from sc.contentrules.groupbydate.interfaces import IGroupByDateAction
+from sc.contentrules.groupbydate.interfaces import IGroupByDateAction, ViewFail
 
 from sc.contentrules.groupbydate.config import STRUCTURES
 
@@ -53,7 +53,8 @@ class GroupByDateAction(SimpleItem):
     @property
     def summary(self):
         return _(u"Move the item under ${base_folder} using ${structure} structure",
-                mapping=dict(base_folder=self.base_folder,structure=self.structure))
+                mapping=dict(base_folder=self.base_folder,
+                             structure=self.structure))
 
 
 class GroupByDateActionExecutor(MoveActionExecutor):
@@ -84,39 +85,41 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         structure = self.element.structure
         portal = self._pstate.portal()
         #
-        folder = self._base_folder(str(base_folder),obj)
+        folder = self._base_folder(str(base_folder), obj)
 
         if folder is None:
-            self.error(obj, _(u"Base folder ${target} does not exist.", mapping={'target' : base_folder}))
+            self.error(obj, _(u"Base folder ${target} does not exist.",
+                       mapping={'target': base_folder}))
             return False
 
-        destFolder = self._createFolderStructure(folder,structure,date=objDate)
+        destFolder = self._createFolderStructure(folder,
+                                                 structure, date=objDate)
         destFolderRelPath = self._relPathToPortal(destFolder)
 
         self.element.target_folder = '/'.join(destFolderRelPath)
 
         # Move object
-        result = super(GroupByDateActionExecutor,self).__call__()
+        result = super(GroupByDateActionExecutor, self).__call__()
         self.element.target_folder = None
         return result
 
-    def _relPathToPortal(self,obj):
+    def _relPathToPortal(self, obj):
         ''' Given an object we return it's relative path to portal
         '''
         portalPath = self._portalPath
         return list(obj.getPhysicalPath())[len(portalPath):]
 
-    def _base_folder(self,base_folder,obj):
-        ''' Given a base_folder string and the object triggering the event, we 
-            return the base object to be used by this action
+    def _base_folder(self, base_folder, obj):
+        ''' Given a base_folder string and the object triggering the event, we
+            return the base object to be used by this action.
         '''
         # Large portions of this code came from Products.ATContentTypes
         # TODO: a package to deal with this kind of stuff (string to object?)
         portalPath = self._portalPath
         # sanitize a bit: you never know, with all those windoze users out there
-        relPath = base_folder.replace("\\","/")
+        relPath = base_folder.replace("\\", "/")
 
-        if relPath[0]=='/':
+        if relPath[0] == '/':
             # someone didn't enter a relative path.
             # let's go with it
             path = relPath.split('/')[1:]
@@ -138,10 +141,10 @@ class GroupByDateActionExecutor(MoveActionExecutor):
                         break
                     else:
                         path = path[:-1]
-                elif folder == '.': 
+                elif folder == '.':
                     # don't really need this but for being complete
                     # strictly speaking some user may use a . aswell
-                    pass # do nothing
+                    pass  # do nothing
                 else:
                     path.append(folder)
 
@@ -159,14 +162,14 @@ class GroupByDateActionExecutor(MoveActionExecutor):
             baseFolder = self._portal
         return baseFolder
 
-    def _createFolderStructure(self,folder,structure='ymd',date=None):
+    def _createFolderStructure(self, folder, structure='ymd', date=None):
         ''' Create a folder structure and then return our innermost folder
         '''
         if not date:
             date = DateTime()
 
         # BBB:to avoid breaking old rules
-        if structure in [k for k,v in STRUCTURES]:
+        if structure in [k for k, v in STRUCTURES]:
             if structure == 'ymd':
                 dateFormat = '%Y/%m/%d'
             elif structure == 'ym':
@@ -198,7 +201,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
             getToolByName(self._portal, 'portal_workflow').updateRoleMappings()
         return folder
 
-    def _addWorkflowPolicy(self,folder,policy=DEFAULTPOLICY):
+    def _addWorkflowPolicy(self, folder, policy=DEFAULTPOLICY):
         ''' After creating a new folder, add a workflow policy in it
         '''
         folder.manage_addProduct['CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
@@ -216,10 +219,53 @@ class GroupByDateAddForm(AddForm):
     description = _(u"A content rules action to move an item to a folder structure.")
     form_name = _(u"Configure element")
 
+    def update(self):
+        self.setUpWidgets()
+        self.form_reset = False
+
+        data = {}
+        errors, action = self.handleSubmit(self.actions, data, self.validate)
+        # the following part will make sure that previous error not
+        # get overriden by new errors. This is usefull for subforms. (ri)
+        #import pdb;pdb.set_trace()
+        if self.errors is None:
+            self.errors = errors
+        else:
+            if errors is not None:
+                self.errors += tuple(errors)
+
+        if errors:
+            if (len(errors) == 1) and (isinstance(errors[0], ViewFail)):
+                # We send a message if validation of view is false and
+                # is the only error.
+                self.status = _('The view is not available in that container')
+                result = action.failure(data, errors)
+            else:
+                self.status = _('There were errors')
+                result = action.failure(data, errors)
+        elif errors is not None:
+            self.form_reset = True
+            result = action.success(data)
+        else:
+            result = None
+
+        self.form_result = result
+
     def create(self, data):
         a = GroupByDateAction()
         form.applyChanges(a, self.form_fields, data)
         return a
+
+    def handleSubmit(self, actions, data, default_validate=None):
+
+        for action in actions:
+            if action.submitted():
+                errors = action.validate(data)
+                if errors is None and default_validate is not None:
+                    errors = default_validate(action, data)
+                return errors, action
+
+        return None, None
 
 
 class GroupByDateEditForm(EditForm):
@@ -232,3 +278,45 @@ class GroupByDateEditForm(EditForm):
     description = _(u"A content rules action to move an item to a folder structure.")
     form_name = _(u"Configure element")
 
+    def update(self):
+        self.setUpWidgets()
+        self.form_reset = False
+
+        data = {}
+        errors, action = self.handleSubmit(self.actions, data, self.validate)
+        # the following part will make sure that previous error not
+        # get overriden by new errors. This is usefull for subforms. (ri)
+        #import pdb;pdb.set_trace()
+        if self.errors is None:
+            self.errors = errors
+        else:
+            if errors is not None:
+                self.errors += tuple(errors)
+
+        if errors:
+            if (len(errors) == 1) and (isinstance(errors[0], ViewFail)):
+                # We send a message if validation of view is false and
+                # is the only error.
+                self.status = _('The view is not available in that container')
+                result = action.failure(data, errors)
+            else:
+                self.status = _('There were errors')
+                result = action.failure(data, errors)
+        elif errors is not None:
+            self.form_reset = True
+            result = action.success(data)
+        else:
+            result = None
+
+        self.form_result = result
+
+    def handleSubmit(self, actions, data, default_validate=None):
+
+        for action in actions:
+            if action.submitted():
+                errors = action.validate(data)
+                if errors is None and default_validate is not None:
+                    errors = default_validate(action, data)
+                return errors, action
+
+        return None, None

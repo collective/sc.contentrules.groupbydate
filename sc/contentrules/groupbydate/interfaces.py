@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
+
 from zope.interface import implements
-from zope.interface import Interface
-from zope.interface import Invalid
 from zope.interface import invariant
 
 from zope.schema import Choice
@@ -11,8 +10,10 @@ from zope.schema.interfaces import IContextSourceBinder
 
 from zope.app.component.hooks import getSite
 
-from sc.contentrules.groupbydate.vocabulary import RelPathSearchableTextSource as SearchableTextSource
+from plone.directives import form
 
+from sc.contentrules.groupbydate.vocabulary import RelPathSearchableTextSource as SearchableTextSource
+from sc.contentrules.groupbydate.exceptions import ViewFail
 from sc.contentrules.groupbydate import MessageFactory as _
 
 
@@ -30,7 +31,7 @@ class SearchableTS(object):
         return results
 
 
-class IGroupByDateAction(Interface):
+class IGroupByDateAction(form.Schema):
     """ Configuration available for this content rule
     """
     base_folder = Choice(title=_(u"Base folder"),
@@ -44,7 +45,8 @@ class IGroupByDateAction(Interface):
                        description=_(u"Select the type of container in which the structure will be based."),
                        source='sc.contentrules.groupbydate.vocabulary.containers',
                        default=('folder', 'Folder'),
-                       required=True)
+                       required=True,
+                       )
 
     default_view = TextLine(title=_(u"Default View"),
                       description=_(u"Default view that container will be render."),
@@ -69,4 +71,4 @@ class IGroupByDateAction(Interface):
         view = rule_form.default_view
         factory = pt[container]
         if not view in factory.view_methods:
-            raise Invalid(u"That view is not available in that container")
+            raise ViewFail
