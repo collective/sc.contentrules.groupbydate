@@ -33,5 +33,5 @@ Test view validation:
     >>> browser.getControl('Apply').click()
     >>> browser.getControl('Default View').value = 'non-available-view'
     >>> browser.getControl('Save').click()
-    >>> 'Error' in browser.contents
+    >>> 'The view is not available in that container' in browser.contents
     True
