@@ -227,7 +227,6 @@ class GroupByDateAddForm(AddForm):
         errors, action = self.handleSubmit(self.actions, data, self.validate)
         # the following part will make sure that previous error not
         # get overriden by new errors. This is usefull for subforms. (ri)
-        #import pdb;pdb.set_trace()
         if self.errors is None:
             self.errors = errors
         else:
@@ -286,7 +285,6 @@ class GroupByDateEditForm(EditForm):
         errors, action = self.handleSubmit(self.actions, data, self.validate)
         # the following part will make sure that previous error not
         # get overriden by new errors. This is usefull for subforms. (ri)
-        #import pdb;pdb.set_trace()
         if self.errors is None:
             self.errors = errors
         else:

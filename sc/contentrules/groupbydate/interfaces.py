@@ -44,7 +44,7 @@ class IGroupByDateAction(form.Schema):
     container = Choice(title=u"Container",
                        description=_(u"Select the type of container in which the structure will be based."),
                        source='sc.contentrules.groupbydate.vocabulary.containers',
-                       default=('folder', 'Folder'),
+                       default='Folder',
                        required=True,
                        )
 
