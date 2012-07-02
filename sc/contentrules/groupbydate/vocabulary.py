@@ -89,7 +89,8 @@ class RelPathQSTSourceView(QuerySearchableTextSourceView):
 
 
 class ContainerSearcher(object):
-    """
+    """ Check for all availables/allowed-addable folderish
+        content types in the site.
     """
     implements(IVocabularyFactory)
 
@@ -101,7 +102,8 @@ class ContainerSearcher(object):
         pt = getToolByName(site, 'portal_types')
         types = pt.listTypeInfo()
         for site_type in types:
-            if site_type.global_allow is True:
+            if (site_type.global_allow is True) and \
+               (site_type.isConstructionAllowed(site) == True):
                 type_id = site_type.getId()
                 site.invokeFactory(type_id, 'item')
                 item = site['item']
