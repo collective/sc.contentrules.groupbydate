@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3b2 (unreleased)
+1.3b2 (2012-07-03)
 ------------------
 
 -  Default value for container field in schema was creating problems.
