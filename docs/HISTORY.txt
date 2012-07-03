@@ -4,7 +4,10 @@ Changelog
 1.3b2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+-  Default value for container field in schema was creating problems.
+   Updating this value. [aleGpereira]
+
+- Fix a little bug for container searcher vocabulary class. [aleGpereira]
 
 
 1.3b1 (2012-06-21)
