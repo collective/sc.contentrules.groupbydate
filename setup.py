@@ -40,7 +40,7 @@ setup(name='sc.contentrules.groupbydate',
       zip_safe=False,
       install_requires=[
         'setuptools',
-        'plone.directives.form==1.0',
+        'plone.directives.form==1.0',  # XXX: why?
         ],
       extras_require={
         'test': ['plone.app.testing'],
