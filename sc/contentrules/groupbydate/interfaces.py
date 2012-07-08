@@ -2,6 +2,8 @@
 
 from zope.interface import implements
 from zope.interface import invariant
+from zope.interface import Interface
+from zope.interface import Invalid
 
 from zope.schema import Choice
 from zope.schema import TextLine
@@ -9,8 +11,6 @@ from zope.schema import TextLine
 from zope.schema.interfaces import IContextSourceBinder
 
 from zope.app.component.hooks import getSite
-
-from plone.directives import form
 
 from sc.contentrules.groupbydate.vocabulary import RelPathSearchableTextSource as SearchableTextSource
 from sc.contentrules.groupbydate.exceptions import ViewFail
@@ -31,7 +31,7 @@ class SearchableTS(object):
         return results
 
 
-class IGroupByDateAction(form.Schema):
+class IGroupByDateAction(Interface):
     """ Configuration available for this content rule
     """
     base_folder = Choice(title=_(u"Base folder"),
