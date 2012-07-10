@@ -4,14 +4,15 @@ Changelog
 1.3b3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Removed dependency on plone.directives.form introduced on previous release.
+  [aleGpereira]
 
 
 1.3b2 (2012-07-03)
 ------------------
 
--  Default value for container field in schema was creating problems.
-   Updating this value. [aleGpereira]
+- Default value for container field in schema was creating problems. Updating
+  this value. [aleGpereira]
 
 - Fix a little bug for container searcher vocabulary class. [aleGpereira]
 
@@ -25,11 +26,13 @@ Changelog
 
 - Fixed package declaration and updated documentation. [hvelarde]
 
-- Adding option so user can select the content type used as container. [aleGpereira]
+- Adding option so user can select the content type used as container.
+  [aleGpereira]
 
 - Adding a field to set a prefer view method for container. [aleGpereira]
 
-- Adding integrational and functional test for view validator and container object creation. [aleGpereira]
+- Adding integrational and functional test for view validator and container
+  object creation. [aleGpereira]
 
 - Update README documentation. [aleGpereira]
 
