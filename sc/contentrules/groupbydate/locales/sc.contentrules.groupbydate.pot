@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sc.contentrules.groupbydate\n"
-"POT-Creation-Date: 2012-06-13 21:50+0000\n"
+"POT-Creation-Date: 2012-07-24 18:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid " Same folder of content"
 msgstr ""
 
-#: sc/contentrules/groupbydate/actions/groupbydate.py:216
+#: sc/contentrules/groupbydate/actions/groupbydate.py:226
 msgid "A content rules action to move an item to a folder structure."
 msgstr ""
 
@@ -30,23 +30,23 @@ msgstr ""
 msgid "Action for content rules that creates a date-based folder structure."
 msgstr ""
 
-#: sc/contentrules/groupbydate/actions/groupbydate.py:215
+#: sc/contentrules/groupbydate/actions/groupbydate.py:225
 msgid "Add group by date folder action"
 msgstr ""
 
-#: sc/contentrules/groupbydate/interfaces.py:36
+#: sc/contentrules/groupbydate/interfaces.py:37
 msgid "Base folder"
 msgstr ""
 
-#: sc/contentrules/groupbydate/actions/groupbydate.py:90
+#: sc/contentrules/groupbydate/actions/groupbydate.py:95
 msgid "Base folder ${target} does not exist."
 msgstr ""
 
-#: sc/contentrules/groupbydate/interfaces.py:55
+#: sc/contentrules/groupbydate/interfaces.py:58
 msgid "Choose hierarchy structure. Use strftime formating. e.g.: '%Y/%m/%d' to have 2011/11/17 or '%Y/%m' to have 2011/11"
 msgstr ""
 
-#: sc/contentrules/groupbydate/interfaces.py:37
+#: sc/contentrules/groupbydate/interfaces.py:38
 msgid "Choose the base folder for the date hierarchy."
 msgstr ""
 
@@ -54,7 +54,7 @@ msgstr ""
 msgid "Comment about the last transition"
 msgstr ""
 
-#: sc/contentrules/groupbydate/actions/groupbydate.py:217
+#: sc/contentrules/groupbydate/actions/groupbydate.py:228
 msgid "Configure element"
 msgstr ""
 
@@ -62,15 +62,15 @@ msgstr ""
 msgid "Content rules: Date-based folder action"
 msgstr ""
 
-#: sc/contentrules/groupbydate/interfaces.py:48
+#: sc/contentrules/groupbydate/interfaces.py:51
 msgid "Default View"
 msgstr ""
 
-#: sc/contentrules/groupbydate/interfaces.py:49
+#: sc/contentrules/groupbydate/interfaces.py:52
 msgid "Default view that container will be render."
 msgstr ""
 
-#: sc/contentrules/groupbydate/actions/groupbydate.py:231
+#: sc/contentrules/groupbydate/actions/groupbydate.py:284
 msgid "Edit group by date action"
 msgstr ""
 
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Group by date Workflow for Folders"
 msgstr ""
 
-#: sc/contentrules/groupbydate/interfaces.py:54
+#: sc/contentrules/groupbydate/interfaces.py:57
 msgid "Hierarchy structure"
 msgstr ""
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Keeps visibility from folder above."
 msgstr ""
 
-#: sc/contentrules/groupbydate/actions/groupbydate.py:55
+#: sc/contentrules/groupbydate/actions/groupbydate.py:57
 msgid "Move the item under ${base_folder} using ${structure} structure"
 msgstr ""
 
@@ -102,8 +102,20 @@ msgstr ""
 msgid "Public draft"
 msgstr ""
 
+#: sc/contentrules/groupbydate/interfaces.py:45
+msgid "Select the type of container in which the structure will be based."
+msgstr ""
+
 #: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
 msgid "The ID of the user who performed the last transition"
+msgstr ""
+
+#: sc/contentrules/groupbydate/actions/groupbydate.py:248
+msgid "The view is not available in that container"
+msgstr ""
+
+#: sc/contentrules/groupbydate/actions/groupbydate.py:251
+msgid "There were errors"
 msgstr ""
 
 #: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
