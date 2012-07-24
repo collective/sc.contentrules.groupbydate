@@ -15,7 +15,8 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.utils import _createObjectByType
 
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
+                                                    WorkflowPolicyConfig_id
 
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
@@ -52,7 +53,8 @@ class GroupByDateAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Move the item under ${base_folder} using ${structure} structure",
+        return _(u"Move the item under ${base_folder} using ${structure}"
+                 u" structure",
                 mapping=dict(base_folder=self.base_folder,
                              structure=self.structure))
 
@@ -67,11 +69,13 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         self.context = context
         self.element = element
         self.event = event
+        self.wt = getToolByName(context, 'portal_workflow')
 
     def __call__(self):
         '''  Executes action, moving content to a date based folder structure
         '''
-        self._pstate = self.context.unrestrictedTraverse('@@plone_portal_state')
+        context = self.context
+        self._pstate = context.unrestrictedTraverse('@@plone_portal_state')
         self._portal = self._pstate.portal()
         self._portalPath = list(self._portal.getPhysicalPath())
 
@@ -83,8 +87,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
 
         base_folder = self.element.base_folder
         structure = self.element.structure
-        portal = self._pstate.portal()
-        #
+
         folder = self._base_folder(str(base_folder), obj)
 
         if folder is None:
@@ -115,8 +118,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         '''
         # Large portions of this code came from Products.ATContentTypes
         # TODO: a package to deal with this kind of stuff (string to object?)
-        portalPath = self._portalPath
-        # sanitize a bit: you never know, with all those windoze users out there
+        # sanitize a bit: you never know, with all those win users out there
         relPath = base_folder.replace("\\", "/")
 
         if relPath[0] == '/':
@@ -130,8 +132,8 @@ class GroupByDateActionExecutor(MoveActionExecutor):
             path = self._relPathToPortal(aq_parent(obj))
 
             # now construct an aboslute path based on the relative custom path
-            # eat away from 'path' whenever we encounter a '..' in the relative path
-            # apend all other elements other than ..
+            # eat away from 'path' whenever we encounter a '..'
+            # in the relative path apend all other elements other than ..
             for folder in folders:
                 if folder == '..':
                     # chop off one level from path
@@ -218,7 +220,8 @@ class GroupByDateAddForm(AddForm):
     """
     form_fields = form.FormFields(IGroupByDateAction)
     label = _(u"Add group by date folder action")
-    description = _(u"A content rules action to move an item to a folder structure.")
+    description = _(u"A content rules action to move an item to a folder"
+                    u" structure.")
     form_name = _(u"Configure element")
 
     def update(self):
@@ -276,7 +279,8 @@ class GroupByDateEditForm(EditForm):
     form_fields = form.FormFields(IGroupByDateAction)
     form_fields['base_folder'].custom_widget = UberSelectionWidget
     label = _(u"Edit group by date action")
-    description = _(u"A content rules action to move an item to a folder structure.")
+    description = _(u"A content rules action to move an item to a folder"
+                    u" structure.")
     form_name = _(u"Configure element")
 
     def update(self):
@@ -297,10 +301,10 @@ class GroupByDateEditForm(EditForm):
             if (len(errors) == 1) and (isinstance(errors[0], ViewFail)):
                 # We send a message if validation of view is false and
                 # is the only error.
-                self.status = _('The view is not available in that container')
+                self.status = _(u'The view is not available in that container')
                 result = action.failure(data, errors)
             else:
-                self.status = _('There were errors')
+                self.status = _(u'There were errors')
                 result = action.failure(data, errors)
         elif errors is not None:
             self.form_reset = True
