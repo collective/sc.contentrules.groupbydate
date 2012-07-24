@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_base
 from Acquisition import aq_parent
 
 from OFS.SimpleItem import SimpleItem
@@ -189,29 +190,33 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         if len(container) > 1:
             container = container[1]
         default_view = self.element.default_view
-        created = False
         for fId in folderStructure:
             if not fId in folder.objectIds():
                 _createObjectByType(container, folder, id=fId,
                                     title=fId, description=fId)
                 folder = folder[fId]
                 folder.setLayout(default_view)
-                created = True
                 self._addWorkflowPolicy(folder)
             else:
                 folder = folder[fId]
-        if created:
-            # Update workflow mapping
-            getToolByName(self._portal, 'portal_workflow').updateRoleMappings()
         return folder
 
     def _addWorkflowPolicy(self, folder, policy=DEFAULTPOLICY):
         ''' After creating a new folder, add a workflow policy in it
+            and update its security settings
         '''
-        folder.manage_addProduct['CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
+        wt = self.wt
+        cmf_placeful = folder.manage_addProduct['CMFPlacefulWorkflow']
+        cmf_placeful.manage_addWorkflowPolicyConfig()
         # Set the policy for the config
         pc = getattr(folder, WorkflowPolicyConfig_id)
         pc.setPolicyIn(policy)
+        wfs = wt.getChainFor(folder)
+        for wf_id in wfs:
+            wf = wt.getWorkflowById(wf_id)
+            change = wf.updateRoleMappingsFor(folder)
+            if change and hasattr(aq_base(folder), 'reindexObject'):
+                folder.reindexObject(idxs=['allowedRolesAndUsers'])
 
 
 class GroupByDateAddForm(AddForm):
