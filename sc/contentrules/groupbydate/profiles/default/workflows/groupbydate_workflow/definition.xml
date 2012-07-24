@@ -20,9 +20,6 @@
   </permission-map>
   <permission-map name="Modify portal content"
                   acquired="True">
-   <permission-role>Manager</permission-role>
-   <permission-role>Owner</permission-role>
-   <permission-role>Editor</permission-role>
   </permission-map>
   <permission-map name="View" acquired="True">
   </permission-map>
