@@ -6,13 +6,13 @@ sc.contentrules.groupbydate
    :depth: 2
 
 Overview
---------
+=========
 sc.contentrules.groupbydate is a very basic content rule action used to
 organize content under a chronological-based hierarchy on a web site upon
 publication.
 
 Base use case
--------------
+==================
 
 A news portal with a few dozen new content items per day needs to organize its
 information in a chronological, yet human-readable, hierarchy.
@@ -28,7 +28,7 @@ folder structure under /news. Supposing it's December 19th, 2008, the item
 will end in /news/2009/12/19/hello-world.
 
 Configuration
--------------
+==================
 
 We will explain step by step how to config this case through plone user
 interface.
