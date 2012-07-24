@@ -222,7 +222,7 @@ class TestGroupByDateAction(unittest.TestCase):
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
                                                           e.base_folder[1:])
         self.assertTrue(isinstance(target_folder, ATTopic))
-        
+
     def testStrftimeFmt(self):
         ''' Execute the action using a valid strftime formatting string
         '''
@@ -284,7 +284,46 @@ class TestGroupByDateAction(unittest.TestCase):
         # @ folder 2009
         self.failUnless(wPID in target_folder.aq_parent.aq_parent.objectIds())
         review_state = wt.getInfoFor(target_folder, 'review_state')
-        self.failUnless(review_state=='visible')
+        self.failUnless(review_state == 'visible')
+
+    def testPlacefulWorflowPermissions(self):
+        ''' validates permissions on folders created by our rule
+        '''
+        portal = self.portal
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+        e.structure = '%Y/%m/%d'
+        e.container = 'Folder'
+
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        self.assertEquals(True, ex())
+
+        self.failIf('d1' in self.folder.objectIds())
+        base_folder = portal.unrestrictedTraverse('%s' % e.base_folder[1:])
+
+        # Permissions
+        view_perm = 'View'
+        access_perm = 'Access contents information'
+
+        # year folder
+        folder = base_folder['2009']
+        self.assertEquals(folder.acquiredRolesAreUsedBy(view_perm),
+                          'CHECKED')
+        self.assertEquals(folder.acquiredRolesAreUsedBy(access_perm),
+                          'CHECKED')
+        # month folder
+        folder = base_folder['2009']['04']
+        self.assertEquals(folder.acquiredRolesAreUsedBy(view_perm),
+                          'CHECKED')
+        self.assertEquals(folder.acquiredRolesAreUsedBy(access_perm),
+                          'CHECKED')
+        # month folder
+        folder = base_folder['2009']['04']['22']
+        self.assertEquals(folder.acquiredRolesAreUsedBy(view_perm),
+                          'CHECKED')
+        self.assertEquals(folder.acquiredRolesAreUsedBy(access_perm),
+                          'CHECKED')
 
     def testExecutionOnCMFContent(self):
         ''' Tests if the rules works with CMF Content
