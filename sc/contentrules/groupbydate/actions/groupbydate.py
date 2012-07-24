@@ -187,8 +187,6 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         folderStructure = [str(p) for p in date.split('/')]
 
         container = self.element.container
-        if len(container) > 1:
-            container = container[1]
         default_view = self.element.default_view
         for fId in folderStructure:
             if not fId in folder.objectIds():
