@@ -180,7 +180,11 @@ class GroupByDateActionExecutor(MoveActionExecutor):
             elif structure == 'y':
                 dateFormat = '%Y'
         else:
-            dateFormat = structure
+            # Create a list stating if the folder should be hiddden from 
+            # navigation
+            should_exclude = ['ee' in i for i in structure.split('/')]
+            # Now remove all the 'h' that may be in the structure
+            dateFormat = structure.replace('ee','')
 
         date = date.strftime(dateFormat)
 
@@ -188,13 +192,15 @@ class GroupByDateActionExecutor(MoveActionExecutor):
 
         container = self.element.container
         default_view = self.element.default_view
-        for fId in folderStructure:
+        for (fId, exclude) in zip(folderStructure, should_exclude):
             if not fId in folder.objectIds():
                 _createObjectByType(container, folder, id=fId,
                                     title=fId, description=fId)
                 folder = folder[fId]
                 folder.setLayout(default_view)
                 self._addWorkflowPolicy(folder)
+                if exclude:
+                    folder.setExcludeFromNav(True)
             else:
                 folder = folder[fId]
         return folder

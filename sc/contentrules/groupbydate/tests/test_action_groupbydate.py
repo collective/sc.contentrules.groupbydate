@@ -343,6 +343,30 @@ class TestGroupByDateAction(unittest.TestCase):
                                                           e.base_folder[1:])
         self.failUnless('cmf' in target_folder.objectIds())
 
+    def testExcludeFolderFromNav(self):
+        ''' Execute the action specifying some folders that should be
+            excluded from navigation
+        '''
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+        e.structure = '%Yee/%m/%dee'
+        e.container = 'Folder'
 
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        self.assertEquals(True, ex())
+
+        foldera = self.portal.unrestrictedTraverse('%s/2009' %
+                                                         e.base_folder[1:])
+        folderb = self.portal.unrestrictedTraverse('%s/2009/04' %
+                                                         e.base_folder[1:])
+        folderc = self.portal.unrestrictedTraverse('%s/2009/04/22' %
+                                                         e.base_folder[1:])
+
+        self.assertTrue(foldera.exclude_from_nav())
+        self.assertFalse(folderb.exclude_from_nav())
+        self.assertTrue(folderc.exclude_from_nav())
+        
+        
 def test_suite():
      return unittest.defaultTestLoader.loadTestsFromName(__name__)
