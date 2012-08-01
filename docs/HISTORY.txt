@@ -35,7 +35,7 @@ Changelog
 
 - Added Spanish and updated Brazilian Portuguese translations. [hvelarde]
 
-- Tested Plone 4.2 compatibility. [hvelarde]
+- Tested Plone 4.2 compatibility (fixes `#1`_). [hvelarde]
 
 - Fixed package declaration and updated documentation. [hvelarde]
 
@@ -48,7 +48,6 @@ Changelog
   object creation. [aleGpereira]
 
 - Update README documentation. [aleGpereira]
-
 
 
 1.2 (2011-12-06)
@@ -93,4 +92,6 @@ Changelog
 - Very earlier i18n support [erico_andrei]
 
 - Initial release
+
+.. _`#1`: https://github.com/collective/sc.contentrules.groupbydate/issues/1
 
