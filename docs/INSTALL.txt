@@ -1,5 +1,5 @@
 Installation
-============
+------------
 
 To enable this product in a buildout-based installation:
 

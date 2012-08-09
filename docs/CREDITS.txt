@@ -1,5 +1,5 @@
 Contributors
-============
+------------
 
 - Érico Andrei
 - Cleber J Santos

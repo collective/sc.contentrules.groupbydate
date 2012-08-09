@@ -1,28 +1,28 @@
 Changelog
-=========
+---------
 
 1.3b5 (unreleased)
-------------------
+^^^^^^^^^^^^^^^^^^
 
 - Nothing changed yet.
 
 
 1.3b4 (2012-07-24)
-------------------
+^^^^^^^^^^^^^^^^^^
 
 - Fix a performance issue with updating role mappings in portals with a huge
   amount of content already created [ericof]
 
 
 1.3b3 (2012-07-10)
-------------------
+^^^^^^^^^^^^^^^^^^
 
 - Removed dependency on plone.directives.form introduced on previous release.
   [aleGpereira]
 
 
 1.3b2 (2012-07-03)
-------------------
+^^^^^^^^^^^^^^^^^^
 
 - Default value for container field in schema was creating problems. Updating
   this value. [aleGpereira]
@@ -31,7 +31,7 @@ Changelog
 
 
 1.3b1 (2012-06-21)
-------------------
+^^^^^^^^^^^^^^^^^^
 
 - Added Spanish and updated Brazilian Portuguese translations. [hvelarde]
 
@@ -51,7 +51,7 @@ Changelog
 
 
 1.2 (2011-12-06)
-----------------
+^^^^^^^^^^^^^^^^
 
 - Move testing to plone.app.testing [ericof]
 
@@ -61,13 +61,13 @@ Changelog
 
 
 1.1.1 (2011-08-22)
-------------------
+^^^^^^^^^^^^^^^^^^
 
 - Fix permission for Plone 4.x [cleberjsantos]
 
 
 1.1 (2011-06-23)
-----------------
+^^^^^^^^^^^^^^^^
 
 - Added z3c.autoinclude entry point to mark this as a Plone plugin
   [erico_andrei]
@@ -76,7 +76,7 @@ Changelog
 
 
 1.0 (2010-07-02)
-----------------
+^^^^^^^^^^^^^^^^
 
 - Allow relative paths as base_folder [erico_andrei]
 
@@ -87,7 +87,7 @@ Changelog
 
 
 0.5 (2009-07-28)
-----------------
+^^^^^^^^^^^^^^^^
 
 - Very earlier i18n support [erico_andrei]
 
