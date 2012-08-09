@@ -85,8 +85,8 @@ interface.
 Mostly Harmless
 ---------------
 
-.. image:: https://secure.travis-ci.org/collective/sc.contentrules.groupbydate.png
-    :target: http://travis-ci.org/collective/sc.contentrules.groupbydate
+.. image:: https://secure.travis-ci.org/simplesconsultoria/sc.contentrules.groupbydate.png
+    :target: http://travis-ci.org/simplesconsultoria/sc.contentrules.groupbydate
 
 Have an idea? Found a bug? Let us know by `opening a support ticket`_.
 
