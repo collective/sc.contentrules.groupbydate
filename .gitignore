@@ -9,6 +9,7 @@ output.xml
 report.html
 selenium*
 bin/
+build/
 develop-eggs/
 downloads/
 eggs/
