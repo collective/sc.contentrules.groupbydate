@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-from Acquisition import aq_base
 from Acquisition import aq_parent
 
 from OFS.SimpleItem import SimpleItem
@@ -28,11 +26,7 @@ from plone.app.contentrules.actions.move import MoveActionExecutor
 
 from DateTime import DateTime
 
-from sc.contentrules.groupbydate.interfaces import IGroupByDateAction, ViewFail
-
-from sc.contentrules.groupbydate.config import STRUCTURES
-
-from sc.contentrules.groupbydate.config import DEFAULTPOLICY
+from sc.contentrules.groupbydate.interfaces import IGroupByDateAction
 
 from sc.contentrules.groupbydate import MessageFactory as _
 
@@ -45,16 +39,15 @@ class GroupByDateAction(SimpleItem):
     base_folder = ''
     structure = '%Y/%m/%d'
     container = ('folder', 'Folder')
-    default_view = 'folder_listing'
 
     element = 'sc.contentrules.actions.groupbydate'
 
     @property
     def summary(self):
-        return _(u"Move the item under ${base_folder} using ${structure}"
-                 u" structure",
-                mapping=dict(base_folder=self.base_folder,
-                             structure=self.structure))
+        return _(u"Move the item under ${base_folder} using ${structure} "
+                 u"structure",
+                 mapping=dict(base_folder=self.base_folder,
+                              structure=self.structure))
 
 
 class GroupByDateActionExecutor(MoveActionExecutor):
