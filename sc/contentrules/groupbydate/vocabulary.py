@@ -80,7 +80,7 @@ class ContainerSearcher(object):
         types = pt.listTypeInfo()
         for site_type in types:
             if (site_type.global_allow is True) and \
-               (site_type.isConstructionAllowed(site) == True):
+               (site_type.isConstructionAllowed(site) is True):
                 type_id = site_type.getId()
                 site.invokeFactory(type_id, 'item')
                 item = site['item']
