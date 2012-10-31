@@ -87,6 +87,15 @@ class TestGroupByDateAction(unittest.TestCase):
                                    name=element.editview)
         self.failUnless(isinstance(editview, GroupByDateEditForm))
 
+    def testActionSummary(self):
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+        e.container = 'Folder'
+        e.roles = set(['Reader', ])
+        summary = (u"Move the item under ${base_folder} using ${structure} "
+                   u"structure")
+        self.assertEquals(summary, e.summary)
+
     def testExecute(self):
         e = GroupByDateAction()
         e.base_folder = '/target'
