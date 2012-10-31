@@ -14,14 +14,14 @@
     <include package="plone.app.contentrules" />
 
     <!-- Forms -->
-    <browser:page 
+    <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
       name="sc.contentrules.actions.groupbydate"
       class=".actions.groupbydate.GroupByDateAddForm"
       permission="cmf.ManagePortal"
       />
 
-    <browser:page 
+    <browser:page
       for="sc.contentrules.groupbydate.interfaces.IGroupByDateAction"
       name="edit"
       class=".actions.groupbydate.GroupByDateEditForm"
