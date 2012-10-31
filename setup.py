@@ -40,7 +40,6 @@ setup(name='sc.contentrules.groupbydate',
       zip_safe=False,
       install_requires=[
         'setuptools',
-        'Products.CMFPlacefulWorkflow',
         ],
       extras_require={
         'test': ['plone.app.testing'],
