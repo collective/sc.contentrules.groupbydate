@@ -22,8 +22,8 @@ FIXTURE = Fixture()
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE, ),
     name='sc.contentrules.groupbydate:Integration',
-    )
+)
 FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FIXTURE, ),
     name='sc.contentrules.groupbydate:Functional',
-    )
+)
