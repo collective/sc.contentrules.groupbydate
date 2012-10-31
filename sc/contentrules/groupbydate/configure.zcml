@@ -43,12 +43,7 @@
         i18n:attributes="title; description"
         />
 
-     <!-- Vocabularies -->
-     <utility
-       component=".vocabulary.HierarchiesVocabularyFactory"
-       name="sc.contentrules.groupbydate.vocabulary.hierarchies"
-       />
-
+    <!-- Vocabularies -->
     <utility
        component=".vocabulary.ContainerSearcherFactory"
        name="sc.contentrules.groupbydate.vocabulary.containers"
