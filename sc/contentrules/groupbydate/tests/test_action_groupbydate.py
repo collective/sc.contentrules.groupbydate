@@ -7,7 +7,7 @@ from DateTime import DateTime
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 
-from zope.interface import implements, Interface
+from zope.interface import implements
 from zope.component import getUtility, getMultiAdapter
 from zope.component.interfaces import IObjectEvent
 
@@ -18,15 +18,14 @@ from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
 
 from Products.CMFDefault.Document import Document
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
-                                                       WorkflowPolicyConfig_id
+
 from Products.ATContentTypes.content.topic import ATTopic
 
-from sc.contentrules.groupbydate.config import DEFAULTPOLICY
 from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateAction
 from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateEditForm
 
 from sc.contentrules.groupbydate.testing import INTEGRATION_TESTING
+
 
 class DummyEvent(object):
     implements(IObjectEvent)
@@ -85,7 +84,7 @@ class TestGroupByDateAction(unittest.TestCase):
                              name='sc.contentrules.actions.groupbydate')
         e = GroupByDateAction()
         editview = getMultiAdapter((e, self.folder.REQUEST),
-                                    name=element.editview)
+                                   name=element.editview)
         self.failUnless(isinstance(editview, GroupByDateEditForm))
 
     def testExecute(self):
@@ -99,7 +98,7 @@ class TestGroupByDateAction(unittest.TestCase):
 
         self.failIf('d1' in self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                          e.base_folder[1:])
+                                                         e.base_folder[1:])
         self.failUnless('d1' in target_folder.objectIds())
 
     def testExecuteWithError(self):
@@ -127,7 +126,7 @@ class TestGroupByDateAction(unittest.TestCase):
 
         self.failIf('d1' in self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                          e.base_folder[1:])
+                                                         e.base_folder[1:])
         self.failUnless('d1' in target_folder.objectIds())
 
     def testExecuteWithNamingConflict(self):
@@ -220,7 +219,7 @@ class TestGroupByDateAction(unittest.TestCase):
 
         self.failIf('d1' in self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                          e.base_folder[1:])
+                                                         e.base_folder[1:])
         self.assertTrue(isinstance(target_folder, ATTopic))
 
     def testStrftimeFmt(self):
@@ -254,76 +253,8 @@ class TestGroupByDateAction(unittest.TestCase):
 
         self.failIf('d1' in self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/Y/04' %
-                                                          e.base_folder[1:])
+                                                         e.base_folder[1:])
         self.failUnless('d1' in target_folder.objectIds())
-
-    def testPlacefulWorflow(self):
-        ''' validates if our folder structure is created with placeful workflow
-            in it
-        '''
-        wt = self.portal.portal_workflow
-        wPID = WorkflowPolicyConfig_id
-        e = GroupByDateAction()
-        e.base_folder = '/target'
-        e.structure = '%Y/%m/%d'
-        e.container = 'Folder'
-
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
-                             IExecutable)
-        self.assertEquals(True, ex())
-
-        self.failIf('d1' in self.folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                          e.base_folder[1:])
-        self.failUnless('d1' in target_folder.objectIds())
-
-        # @ folder 22
-        self.failUnless(wPID in target_folder.objectIds())
-        # @ folder 04
-        self.failUnless(wPID in target_folder.aq_parent.objectIds())
-        # @ folder 2009
-        self.failUnless(wPID in target_folder.aq_parent.aq_parent.objectIds())
-        review_state = wt.getInfoFor(target_folder, 'review_state')
-        self.failUnless(review_state == 'visible')
-
-    def testPlacefulWorflowPermissions(self):
-        ''' validates permissions on folders created by our rule
-        '''
-        portal = self.portal
-        e = GroupByDateAction()
-        e.base_folder = '/target'
-        e.structure = '%Y/%m/%d'
-        e.container = 'Folder'
-
-        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
-                             IExecutable)
-        self.assertEquals(True, ex())
-
-        self.failIf('d1' in self.folder.objectIds())
-        base_folder = portal.unrestrictedTraverse('%s' % e.base_folder[1:])
-
-        # Permissions
-        view_perm = 'View'
-        access_perm = 'Access contents information'
-
-        # year folder
-        folder = base_folder['2009']
-        self.assertEquals(folder.acquiredRolesAreUsedBy(view_perm),
-                          'CHECKED')
-        self.assertEquals(folder.acquiredRolesAreUsedBy(access_perm),
-                          'CHECKED')
-        # month folder
-        folder = base_folder['2009']['04']
-        self.assertEquals(folder.acquiredRolesAreUsedBy(view_perm),
-                          'CHECKED')
-        self.assertEquals(folder.acquiredRolesAreUsedBy(access_perm),
-                          'CHECKED')
-        # month folder
-        folder = base_folder['2009']['04']['22']
-        self.assertEquals(folder.acquiredRolesAreUsedBy(view_perm),
-                          'CHECKED')
-        self.assertEquals(folder.acquiredRolesAreUsedBy(access_perm),
-                          'CHECKED')
 
     def testExecutionOnCMFContent(self):
         ''' Tests if the rules works with CMF Content
@@ -340,9 +271,5 @@ class TestGroupByDateAction(unittest.TestCase):
 
         self.failIf('cmf' in self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                          e.base_folder[1:])
+                                                         e.base_folder[1:])
         self.failUnless('cmf' in target_folder.objectIds())
-
-
-def test_suite():
-     return unittest.defaultTestLoader.loadTestsFromName(__name__)
