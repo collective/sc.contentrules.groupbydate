@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<import-steps>
- <import-step id="sc.contentrules.groupbydate-upgrades" version="20100702-01"
-              handler="sc.contentrules.groupbydate.setuphandlers.doUpgrades"
-              title="Do upgrades">
-  <dependency step="rolemap" />
-  Do upgrades
- </import-step>
-</import-steps>
