@@ -8,10 +8,8 @@ from zope.schema import TextLine
 
 from zope.schema.interfaces import IContextSourceBinder
 
-from zope.app.component.hooks import getSite
-
-from sc.contentrules.groupbydate.vocabulary import RelPathSearchableTextSource as SearchableTextSource
-from sc.contentrules.groupbydate.exceptions import ViewFail
+from sc.contentrules.groupbydate.vocabulary import (RelPathSearchableTextSource
+                                                    as SearchableTextSource)
 from sc.contentrules.groupbydate import MessageFactory as _
 
 
@@ -30,18 +28,19 @@ class SearchableTS(object):
 
 
 class IGroupByDateAction(Interface):
-    """ Configuration available for this content rule
+    """ Configuration options for this content rule action
     """
     base_folder = Choice(title=_(u"Base folder"),
-                        description=_(u"Choose the base folder for the date hierarchy."),
-                        required=True,
-                        source=SearchableTS({'is_folderish': True},
-                                             default_query='path:')
-                        )
+                         description=_(u"Choose the base folder for the date "
+                                       u"hierarchy."),
+                         required=True,
+                         source=SearchableTS({'is_folderish': True},
+                                             default_query='path:'))
 
     container = Choice(title=u"Container",
-                       description=_(u"Select the type of container in which the structure will be based."),
-                       source='sc.contentrules.groupbydate.vocabulary.containers',
+                       description=_(u"Select the type of container in which "
+                                     u"the structure will be based."),
+                       source='sc.contentrules.groupbydate.containers',
                        default='Folder',
                        required=True)
 
