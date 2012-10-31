@@ -16,9 +16,6 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.utils import _createObjectByType
 
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
-                                                    WorkflowPolicyConfig_id
-
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
 
@@ -171,50 +168,21 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         if not date:
             date = DateTime()
 
-        # BBB:to avoid breaking old rules
-        if structure in [k for k, v in STRUCTURES]:
-            if structure == 'ymd':
-                dateFormat = '%Y/%m/%d'
-            elif structure == 'ym':
-                dateFormat = '%Y/%m'
-            elif structure == 'y':
-                dateFormat = '%Y'
-        else:
-            dateFormat = structure
+        dateFormat = structure
 
         date = date.strftime(dateFormat)
 
         folderStructure = [str(p) for p in date.split('/')]
 
         container = self.element.container
-        default_view = self.element.default_view
         for fId in folderStructure:
             if not fId in folder.objectIds():
                 _createObjectByType(container, folder, id=fId,
                                     title=fId, description=fId)
                 folder = folder[fId]
-                folder.setLayout(default_view)
-                self._addWorkflowPolicy(folder)
             else:
                 folder = folder[fId]
         return folder
-
-    def _addWorkflowPolicy(self, folder, policy=DEFAULTPOLICY):
-        ''' After creating a new folder, add a workflow policy in it
-            and update its security settings
-        '''
-        wt = self.wt
-        cmf_placeful = folder.manage_addProduct['CMFPlacefulWorkflow']
-        cmf_placeful.manage_addWorkflowPolicyConfig()
-        # Set the policy for the config
-        pc = getattr(folder, WorkflowPolicyConfig_id)
-        pc.setPolicyIn(policy)
-        wfs = wt.getChainFor(folder)
-        for wf_id in wfs:
-            wf = wt.getWorkflowById(wf_id)
-            change = wf.updateRoleMappingsFor(folder)
-            if change and hasattr(aq_base(folder), 'reindexObject'):
-                folder.reindexObject(idxs=['allowedRolesAndUsers'])
 
 
 class GroupByDateAddForm(AddForm):
@@ -225,54 +193,11 @@ class GroupByDateAddForm(AddForm):
     label = _(u"Add group by date folder action")
     description = _(u"A content rules action to move an item to a folder"
                     u" structure.")
-    form_name = _(u"Configure element")
-
-    def update(self):
-        self.setUpWidgets()
-        self.form_reset = False
-
-        data = {}
-        errors, action = self.handleSubmit(self.actions, data, self.validate)
-        # the following part will make sure that previous error not
-        # get overriden by new errors. This is usefull for subforms. (ri)
-        if self.errors is None:
-            self.errors = errors
-        else:
-            if errors is not None:
-                self.errors += tuple(errors)
-
-        if errors:
-            if (len(errors) == 1) and (isinstance(errors[0], ViewFail)):
-                # We send a message if validation of view is false and
-                # is the only error.
-                self.status = _('The view is not available in that container')
-                result = action.failure(data, errors)
-            else:
-                self.status = _('There were errors')
-                result = action.failure(data, errors)
-        elif errors is not None:
-            self.form_reset = True
-            result = action.success(data)
-        else:
-            result = None
-
-        self.form_result = result
 
     def create(self, data):
         a = GroupByDateAction()
         form.applyChanges(a, self.form_fields, data)
         return a
-
-    def handleSubmit(self, actions, data, default_validate=None):
-
-        for action in actions:
-            if action.submitted():
-                errors = action.validate(data)
-                if errors is None and default_validate is not None:
-                    errors = default_validate(action, data)
-                return errors, action
-
-        return None, None
 
 
 class GroupByDateEditForm(EditForm):
@@ -284,46 +209,3 @@ class GroupByDateEditForm(EditForm):
     label = _(u"Edit group by date action")
     description = _(u"A content rules action to move an item to a folder"
                     u" structure.")
-    form_name = _(u"Configure element")
-
-    def update(self):
-        self.setUpWidgets()
-        self.form_reset = False
-
-        data = {}
-        errors, action = self.handleSubmit(self.actions, data, self.validate)
-        # the following part will make sure that previous error not
-        # get overriden by new errors. This is usefull for subforms. (ri)
-        if self.errors is None:
-            self.errors = errors
-        else:
-            if errors is not None:
-                self.errors += tuple(errors)
-
-        if errors:
-            if (len(errors) == 1) and (isinstance(errors[0], ViewFail)):
-                # We send a message if validation of view is false and
-                # is the only error.
-                self.status = _(u'The view is not available in that container')
-                result = action.failure(data, errors)
-            else:
-                self.status = _(u'There were errors')
-                result = action.failure(data, errors)
-        elif errors is not None:
-            self.form_reset = True
-            result = action.success(data)
-        else:
-            result = None
-
-        self.form_result = result
-
-    def handleSubmit(self, actions, data, default_validate=None):
-
-        for action in actions:
-            if action.submitted():
-                errors = action.validate(data)
-                if errors is None and default_validate is not None:
-                    errors = default_validate(action, data)
-                return errors, action
-
-        return None, None
