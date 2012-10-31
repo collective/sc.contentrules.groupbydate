@@ -19,32 +19,9 @@ from plone.app.vocabularies.catalog import QuerySearchableTextSourceView
 
 from plone.app.vocabularies.terms import BrowsableTerm
 
-from sc.contentrules.groupbydate.config import RELPATHVOC, STRUCTURES
-
-from sc.contentrules.groupbydate import MessageFactory as _
+from sc.contentrules.groupbydate.config import RELPATHVOC
 
 logger = logging.getLogger('sc.contentrules.groupbydate')
-
-
-class HierarchiesVocabulary(object):
-    """Vocabulary factory listing available hierarchies
-    """
-
-    implements(IVocabularyFactory)
-
-    def __call__(self, context):
-        terms = []
-
-        for key, title  in STRUCTURES:
-            terms.append(
-                SimpleTerm(
-                    key,
-                    title=title)
-                )
-
-        return SimpleVocabulary(terms)
-
-HierarchiesVocabularyFactory = HierarchiesVocabulary()
 
 
 class RelPathSearchableTextSource(SearchableTextSource):
