@@ -46,7 +46,7 @@
     <!-- Vocabularies -->
     <utility
        component=".vocabulary.ContainerSearcherFactory"
-       name="sc.contentrules.groupbydate.vocabulary.containers"
+       name="sc.contentrules.groupbydate.containers"
        />
 
      <adapter
