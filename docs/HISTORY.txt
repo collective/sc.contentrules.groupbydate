@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-2.0b1 (unreleased)
+2.0b1 (2012-11-27)
 ^^^^^^^^^^^^^^^^^^
 
 - This package no longer needs to be installed in the site's control panel.
