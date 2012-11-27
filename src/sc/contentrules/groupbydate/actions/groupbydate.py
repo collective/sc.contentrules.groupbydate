@@ -111,7 +111,8 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         # TODO: a package to deal with this kind of stuff (string to object?)
         # sanitize a bit: you never know, with all those win users out there
         relPath = base_folder.replace("\\", "/")
-
+        if not relPath:
+            return self._portal
         if relPath[0] == '/':
             # someone didn't enter a relative path.
             # let's go with it

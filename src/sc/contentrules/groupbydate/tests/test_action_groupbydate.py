@@ -203,6 +203,58 @@ class TestGroupByDateAction(unittest.TestCase):
         target_folder = relativeTarget.unrestrictedTraverse('2009/04/22')
         self.failUnless('d1' in target_folder.objectIds())
 
+    def testExecuteWithLongRelativePath(self):
+        ''' Execute the action with a valid relative path
+        '''
+        folder = self.folder['relativeTarget']
+        folder.invokeFactory('Document', 'd2')
+        folder.d2.setEffectiveDate(DateTime('2009/04/22'))
+        e = GroupByDateAction()
+        # A sibling folder named relativeTarget
+        e.base_folder = '../../'
+        e.container = 'Folder'
+
+        ex = getMultiAdapter((folder, e, DummyEvent(folder.d2)), IExecutable)
+        self.assertEquals(True, ex())
+
+        self.failIf('d2' in folder.objectIds())
+        target_folder = self.portal.unrestrictedTraverse('2009/04/22')
+        self.failUnless('d2' in target_folder.objectIds())
+
+    def testExecuteWithoutBaseFolder(self):
+        ''' Execute the action without a path
+        '''
+        e = GroupByDateAction()
+        # A sibling folder named relativeTarget
+        e.base_folder = ''
+        e.container = 'Folder'
+
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        self.assertEquals(True, ex())
+
+        self.failIf('d1' in self.folder.objectIds())
+        target_folder = self.portal.unrestrictedTraverse('2009/04/22')
+        self.failUnless('d1' in target_folder.objectIds())
+
+    def testExecuteWithoutEffectiveDate(self):
+        ''' Execute the action without an effective date
+        '''
+        folder = self.folder['relativeTarget']
+        folder.invokeFactory('Document', 'd2')
+        e = GroupByDateAction()
+        # A sibling folder named relativeTarget
+        e.base_folder = '../'
+        e.container = 'Folder'
+
+        ex = getMultiAdapter((folder, e, DummyEvent(folder.d2)), IExecutable)
+        self.assertEquals(True, ex())
+
+        self.failIf('d2' in folder.objectIds())
+        path = DateTime().strftime('%Y/%m/%d')
+        target_folder = self.folder.unrestrictedTraverse(path)
+        self.failUnless('d2' in target_folder.objectIds())
+
     def testExecuteWithNonExistantRelativePath(self):
         ''' Execute the action with a non existent relative path
         '''
