@@ -11,6 +11,9 @@ Overview
 sc.contentrules.groupbydate is a content rule action used to organize content
 under a chronological-based hierarchy on a web site.
 
+The 2.0 series introduces a major refactoring of the code base and **is not
+backwards compatible** with previous versions.
+
 Base use case
 -------------
 
