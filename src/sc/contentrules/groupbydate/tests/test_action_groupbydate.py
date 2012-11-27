@@ -269,6 +269,23 @@ class TestGroupByDateAction(unittest.TestCase):
 
         self.failUnless('d1' in self.folder.objectIds())
 
+    def testExecuteFromPloneSite(self):
+        ''' Execute the action with a non existent relative path
+        '''
+        e = GroupByDateAction()
+        self.portal.invokeFactory('Document', 'd2')
+        self.portal.d2.setEffectiveDate(DateTime('2009/04/22'))
+        # An non existant folder
+        e.base_folder = '..'
+        e.container = 'Folder'
+
+        ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal.d2)),
+                             IExecutable)
+        self.assertEquals(True, ex())
+
+        target_folder = self.portal.unrestrictedTraverse('2009/04/22')
+        self.failUnless('d2' in target_folder.objectIds())
+
     def testExecuteDifferentContainer(self):
         e = GroupByDateAction()
         e.base_folder = '/target'

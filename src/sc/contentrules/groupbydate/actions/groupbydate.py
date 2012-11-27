@@ -148,9 +148,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
             path = '/'.join(path)
             try:
                 baseFolder = self._portal.unrestrictedTraverse(path)
-            except AttributeError:
-                baseFolder = None
-            except KeyError:
+            except (AttributeError, KeyError):
                 baseFolder = None
         else:
             baseFolder = self._portal
