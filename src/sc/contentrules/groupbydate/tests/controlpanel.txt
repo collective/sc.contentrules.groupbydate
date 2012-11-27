@@ -14,6 +14,13 @@ First we will set some variables to be used on this test::
     >>> portal = layer['portal']
     >>> request = layer['request']
 
+    >>> import transaction
+    >>> from plone.app.testing import setRoles
+    >>> from plone.app.testing import TEST_USER_ID
+    >>> setRoles(portal, TEST_USER_ID, ['Manager'])
+    >>> folder_id = portal.invokeFactory('Folder', 'news', title='News')
+    >>> transaction.commit()
+
     >>> from plone.testing.z2 import Browser
     >>> from plone.app.testing import SITE_OWNER_NAME
     >>> from plone.app.testing import SITE_OWNER_PASSWORD
@@ -109,6 +116,30 @@ using year, month, day ::
 
     >>> browser.getControl(name='form.container').value = ['Folder',]
     >>> browser.getControl(name='form.structure').value = '%Y/%m/%d'
+    >>> browser.getControl(name='form.actions.save').click()
+
+Then we are back to the management of 'Organize News Items' content rule::
+
+    >>> browser.url.endswith('@@manage-elements')
+    True
+
+We will edit our action::
+
+    >>> browser.getControl(name='form.button.EditAction').click()
+    >>> browser.url.endswith('++action++0/edit')
+    True
+
+And change the base folder. First we search for News::
+
+    >>> browser.getControl(name='form.base_folder.query').value = 'News'
+    >>> browser.getControl(name='form.base_folder.search').click()
+
+Then we confirm the search result and save::
+
+    >>> browser.getControl(name='form.base_folder', index=1).options[2]
+    '/news'
+    >>> browser.getControl(name='form.base_folder', index=1).value = ['/news']
+    >>> browser.getControl(name='form.base_folder.update').click()
     >>> browser.getControl(name='form.actions.save').click()
 
 Then we are back to the management of 'Organize News Items' content rule::
