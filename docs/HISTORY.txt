@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-2.0b2 (unreleased)
+2.0b2 (2012-11-30)
 ^^^^^^^^^^^^^^^^^^
 
 - Execute IRuleExecutor for each folder created. This enables cascading content rules
