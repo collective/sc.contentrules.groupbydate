@@ -7,8 +7,9 @@ from zope.component import adapts
 
 from zope.interface import Interface
 from zope.interface import implements
-
+from zope.lifecycleevent import ObjectAddedEvent
 from zope.formlib import form
+from plone.contentrules.engine.interfaces import IRuleExecutor
 
 from Products.CMFCore.utils import getToolByName
 
@@ -167,11 +168,17 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         folderStructure = [str(p) for p in date.split('/')]
 
         container = self.element.container
+        # We run IRuleExecutor here to make sure other rules will be
+        # executed for the newly created folders
+        executor = IRuleExecutor(self.context, None)
         for fId in folderStructure:
             if not fId in folder.objectIds():
                 _createObjectByType(container, folder, id=fId,
                                     title=fId, description=fId)
                 folder = folder[fId]
+                event = ObjectAddedEvent(folder, aq_parent(folder), fId)
+                if executor is not None:
+                    executor(event)
             else:
                 folder = folder[fId]
         return folder

@@ -351,3 +351,38 @@ class TestGroupByDateAction(unittest.TestCase):
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
                                                          e.base_folder[1:])
         self.failUnless('cmf' in target_folder.objectIds())
+
+    def testFolderNotifyAddedEvent(self):
+        from zope.component import adapter
+        from zope.component import provideHandler
+        from zope.lifecycleevent import ObjectAddedEvent
+
+        e = GroupByDateAction()
+        e.base_folder = '/target'
+        e.container = 'Folder'
+
+        class Handler(object):
+
+            def __init__(self):
+                self.invocations = []
+                self.counter = 0
+
+            @adapter(ObjectAddedEvent)
+            def handler(self, event):
+                obj = event.object
+                self.counter += 1
+                if not obj in self.invocations:
+                    self.invocations.append(obj)
+
+        self.handler = Handler()
+        provideHandler(self.handler.handler)
+
+        ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
+                             IExecutable)
+        self.assertEquals(True, ex())
+        invocations = self.handler.invocations
+        self.assertEquals(len(invocations), 3)
+        self.assertEquals(self.handler.counter, 3)
+        self.assertEquals(invocations[0].getId(), '2009')
+        self.assertEquals(invocations[1].getId(), '04')
+        self.assertEquals(invocations[2].getId(), '22')
