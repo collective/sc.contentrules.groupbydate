@@ -4,7 +4,9 @@ Changelog
 2.0b2 (unreleased)
 ^^^^^^^^^^^^^^^^^^
 
-- Nothing changed yet.
+- Execute IRuleExecutor for each folder created. This enables cascading content rules
+  to be applied to newly created folders.
+  [ericof]
 
 
 2.0b1 (2012-11-27)
