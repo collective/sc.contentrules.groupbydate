@@ -173,6 +173,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         folderStructure = [str(p) for p in date.split('/')]
 
         container = self.element.container
+        language = folder.Language()
         # We run IRuleExecutor here to make sure other rules will be
         # executed for the newly created folders
         executor = IRuleExecutor(self.context, None)
@@ -181,6 +182,8 @@ class GroupByDateActionExecutor(MoveActionExecutor):
                 _createObjectByType(container, folder, id=fId,
                                     title=fId, description=fId)
                 folder = folder[fId]
+                # this makes happy multilang sites
+                folder.setLanguage(language)
                 event = ObjectAddedEvent(folder, aq_parent(folder), fId)
                 if executor is not None:
                     executor(event)
