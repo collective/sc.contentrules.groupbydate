@@ -4,7 +4,11 @@ Changelog
 2.0b3 (unreleased)
 ^^^^^^^^^^^^^^^^^^
 
-- Nothing changed yet.
+- Update translations, add italian traslation
+  [simahawk]
+
+- Update README and move to rst
+  [simahawk] 
 
 
 2.0b2 (2012-11-30)
