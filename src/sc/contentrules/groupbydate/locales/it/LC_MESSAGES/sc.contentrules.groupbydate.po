@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-02-22 07:43+0000\n"
+"POT-Creation-Date: 2013-02-22 08:55+0000\n"
 "PO-Revision-Date: 2013-02-22 08:52+0100\n"
 "Last-Translator: Simone Orsi <simahawk@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,11 @@ msgstr "Un livello piú su"
 msgid " Same folder of content"
 msgstr "Stesso cartella del contenuto"
 
-#: ./../actions/groupbydate.py:193
+#: ./../actions/groupbydate.py:192
 msgid "A content rules action to move an item to a folder structure."
 msgstr "Un'azione per regola di contenuto per spostare un oggetto in una gerarchia di cartelle."
 
-#: ./../actions/groupbydate.py:192
+#: ./../actions/groupbydate.py:191
 msgid "Add group by date folder action"
 msgstr "Aggiungi azione 'raggruppa per cartelle data'"
 
@@ -34,7 +34,7 @@ msgstr "Aggiungi azione 'raggruppa per cartelle data'"
 msgid "Base folder"
 msgstr "Cartella base"
 
-#: ./../actions/groupbydate.py:86
+#: ./../actions/groupbydate.py:85
 msgid "Base folder ${target} does not exist."
 msgstr "La cartella base ${target} non esiste"
 
@@ -46,7 +46,11 @@ msgstr "Scegli la gerarchia. Usa la formattazione di strftime. Es: '%Y/%m/%d' pe
 msgid "Choose the base folder for the date hierarchy."
 msgstr "Scegli la cartella base per la gerarchia di date."
 
-#: ./../actions/groupbydate.py:208
+#: ./../interfaces.py:40
+msgid "Container"
+msgstr "Contenitore"
+
+#: ./../actions/groupbydate.py:207
 msgid "Edit group by date action"
 msgstr "Modifica l'azione 'raggruppa per data'"
 

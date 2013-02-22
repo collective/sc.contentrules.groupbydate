@@ -37,7 +37,7 @@ class IGroupByDateAction(Interface):
                          source=SearchableTS({'is_folderish': True},
                                              default_query='path:'))
 
-    container = Choice(title=u"Container",
+    container = Choice(title=_(u"Container"),
                        description=_(u"Select the type of container in which "
                                      u"the structure will be based."),
                        source='sc.contentrules.groupbydate.containers',

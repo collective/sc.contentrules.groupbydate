@@ -45,8 +45,7 @@ class GroupByDateAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Move the item under ${base_folder} using ${structure} "
-                 u"structure",
+        return _(u"Move the item under ${base_folder} using ${structure} structure",
                  mapping=dict(base_folder=self.base_folder,
                               structure=self.structure))
 
