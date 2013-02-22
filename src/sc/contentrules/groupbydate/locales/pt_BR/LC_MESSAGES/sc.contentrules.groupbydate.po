@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sc.contentrules.groupbydate\n"
-"POT-Creation-Date: 2012-07-24 18:56+0000\n"
+"POT-Creation-Date: 2013-02-22 07:43+0000\n"
 "PO-Revision-Date: 2012-06-13 18:46-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: Simples Consultoria <contato@simplesconsultoria.com.br>\n"
@@ -14,127 +14,51 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: sc.contentrules.groupbydate\n"
 
-#: sc/contentrules/groupbydate/config.py:7
+#: ./../config.py:7
 msgid " One level up"
 msgstr " Uma pasta acima do conteúdo"
 
-#: sc/contentrules/groupbydate/config.py:8
+#: ./../config.py:8
 msgid " Same folder of content"
 msgstr " Mesma pasta do conteúdo"
 
-#: sc/contentrules/groupbydate/actions/groupbydate.py:226
+#: ./../actions/groupbydate.py:193
 msgid "A content rules action to move an item to a folder structure."
 msgstr "Uma ação para as regras de conteúdo que move um conteúdo para dentro de uma estrutura de pastas."
 
-#: ../configure.zcml
-msgid "Action for content rules that creates a date-based folder structure."
-msgstr "Ação de regras de conteúdo que cria uma estrutura de pastas com base na data do objeto"
-
-#: sc/contentrules/groupbydate/actions/groupbydate.py:225
+#: ./../actions/groupbydate.py:192
 msgid "Add group by date folder action"
 msgstr "Adicionar ação de organização por data."
 
-#: sc/contentrules/groupbydate/interfaces.py:37
+#: ./../interfaces.py:33
 msgid "Base folder"
 msgstr "Pasta base"
 
-#: sc/contentrules/groupbydate/actions/groupbydate.py:95
+#: ./../actions/groupbydate.py:86
 msgid "Base folder ${target} does not exist."
 msgstr "Pasta base ${target} não existente."
 
-#: sc/contentrules/groupbydate/interfaces.py:58
+#: ./../interfaces.py:48
 msgid "Choose hierarchy structure. Use strftime formating. e.g.: '%Y/%m/%d' to have 2011/11/17 or '%Y/%m' to have 2011/11"
 msgstr "Escolha a estrutura da hierarquia. Use o formato strftime. ex: '%Y/%m/%d' para ter 2011/11/17 ou '%Y/%m' para ter 2011/11"
 
-#: sc/contentrules/groupbydate/interfaces.py:38
+#: ./../interfaces.py:34
 msgid "Choose the base folder for the date hierarchy."
 msgstr "Escolha a pasta que será a base para a hierarquia de datas"
 
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "Comment about the last transition"
-msgstr "Comentário sobre a última transição"
-
-#: sc/contentrules/groupbydate/actions/groupbydate.py:228
-msgid "Configure element"
-msgstr "Configure o elemento"
-
-#: ../configure.zcml
-msgid "Content rules: Date-based folder action"
-msgstr "Regras de Conteúdo: Ação de criação pastas por data"
-
-#: sc/contentrules/groupbydate/interfaces.py:51
-msgid "Default View"
-msgstr "Visão padrão"
-
-#: sc/contentrules/groupbydate/interfaces.py:52
-msgid "Default view that container will be render."
-msgstr "Visão padrão usada pela pasta."
-
-#: sc/contentrules/groupbydate/actions/groupbydate.py:284
+#: ./../actions/groupbydate.py:208
 msgid "Edit group by date action"
 msgstr "Editar a ação de organização por data."
 
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "Group by date Workflow for Folders"
-msgstr "Workflow pata as pastas criadas pelo group by date"
-
-#: sc/contentrules/groupbydate/interfaces.py:57
+#: ./../interfaces.py:47
 msgid "Hierarchy structure"
 msgstr "Estrutura da hierarquia"
 
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "Keeps visibility from folder above."
-msgstr "Mantém a visibilidade da pasta superior"
-
-#: sc/contentrules/groupbydate/actions/groupbydate.py:57
+#: ./../actions/groupbydate.py:48
 msgid "Move the item under ${base_folder} using ${structure} structure"
 msgstr "Move o item para baixo de ${base_folder} usando a estrutura ${structure}"
 
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "Previous transition"
-msgstr "Transição anterior"
-
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "Provides access to workflow history"
-msgstr "Fornece acesso ao histórico do workflow"
-
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "Public draft"
-msgstr "Visível"
-
-#: sc/contentrules/groupbydate/interfaces.py:45
+#: ./../interfaces.py:41
 msgid "Select the type of container in which the structure will be based."
 msgstr ""
-
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "The ID of the user who performed the last transition"
-msgstr "O ID do usuário que realizou a última transição"
-
-#: sc/contentrules/groupbydate/actions/groupbydate.py:248
-msgid "The view is not available in that container"
-msgstr ""
-
-#: sc/contentrules/groupbydate/actions/groupbydate.py:251
-msgid "There were errors"
-msgstr ""
-
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "Used to support sc.contentrules.groupbydate_workflow"
-msgstr "Usado para apoiar sc.contentrules.groupbydate_workflow"
-
-#: sc/contentrules/groupbydate/profiles/default/workflows/groupbydate_workflow/definition.xml
-msgid "When the previous transition was performed"
-msgstr "Quando a transição anterior foi realizada"
-
-#: sc/contentrules/groupbydate/config.py:12
-msgid "Year"
-msgstr "Ano"
-
-#: sc/contentrules/groupbydate/config.py:11
-msgid "Year/Month"
-msgstr "Ano/Mês"
-
-#: sc/contentrules/groupbydate/config.py:10
-msgid "Year/Month/Day"
-msgstr "Ano/Mês/Dia"
 
