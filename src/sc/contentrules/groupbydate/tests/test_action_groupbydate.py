@@ -382,7 +382,8 @@ class TestGroupByDateAction(unittest.TestCase):
         self.assertEquals(True, ex())
         invocations = self.handler.invocations
         self.assertEquals(len(invocations), 3)
-        self.assertEquals(self.handler.counter, 3)
+        # the event is triggered two times for any object
+        self.assertEquals(self.handler.counter, 6)
         self.assertEquals(invocations[0].getId(), '2009')
         self.assertEquals(invocations[1].getId(), '04')
         self.assertEquals(invocations[2].getId(), '22')
