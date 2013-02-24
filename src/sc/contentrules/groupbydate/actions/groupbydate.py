@@ -94,7 +94,10 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         self.element.target_folder = '/'.join(destFolderRelPath)
 
         # get the future id
-        next_id = self.generate_id(destFolder, obj.id)
+        # the target folder could be the same
+        next_id = obj.id
+        if destFolder != aq_parent(obj):
+            next_id = self.generate_id(destFolder, obj.id)
         # Move object
         result = super(GroupByDateActionExecutor, self).__call__()
         self.element.target_folder = None
