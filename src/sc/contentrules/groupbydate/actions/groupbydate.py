@@ -4,7 +4,7 @@ from Acquisition import aq_parent
 from OFS.SimpleItem import SimpleItem
 
 from zope.component import adapts
-
+from zope.event import notify
 from zope.interface import Interface
 from zope.interface import implements
 from zope.lifecycleevent import ObjectAddedEvent
@@ -28,6 +28,7 @@ from plone.app.contentrules.actions.move import MoveActionExecutor
 from DateTime import DateTime
 
 from sc.contentrules.groupbydate.interfaces import IGroupByDateAction
+from sc.contentrules.groupbydate.events import ObjectGroupedByDate
 
 from sc.contentrules.groupbydate import MessageFactory as _
 
@@ -45,8 +46,7 @@ class GroupByDateAction(SimpleItem):
 
     @property
     def summary(self):
-        return _(u"Move the item under ${base_folder} using ${structure} "
-                 u"structure",
+        return _(u"Move the item under ${base_folder} using ${structure} structure",
                  mapping=dict(base_folder=self.base_folder,
                               structure=self.structure))
 
@@ -93,9 +93,17 @@ class GroupByDateActionExecutor(MoveActionExecutor):
 
         self.element.target_folder = '/'.join(destFolderRelPath)
 
+        # get the future id
+        # the target folder could be the same
+        next_id = obj.id
+        if destFolder != aq_parent(obj):
+            next_id = self.generate_id(destFolder, obj.id)
         # Move object
         result = super(GroupByDateActionExecutor, self).__call__()
         self.element.target_folder = None
+        # notify specific event on new object
+        new_obj = destFolder[next_id]
+        notify(ObjectGroupedByDate(new_obj))
         return result
 
     def _relPathToPortal(self, obj):
@@ -168,6 +176,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         folderStructure = [str(p) for p in date.split('/')]
 
         container = self.element.container
+        language = folder.Language()
         # We run IRuleExecutor here to make sure other rules will be
         # executed for the newly created folders
         executor = IRuleExecutor(self.context, None)
@@ -176,6 +185,8 @@ class GroupByDateActionExecutor(MoveActionExecutor):
                 _createObjectByType(container, folder, id=fId,
                                     title=fId, description=fId)
                 folder = folder[fId]
+                # this makes happy multilang sites
+                folder.setLanguage(language)
                 event = ObjectAddedEvent(folder, aq_parent(folder), fId)
                 if executor is not None:
                     executor(event)
