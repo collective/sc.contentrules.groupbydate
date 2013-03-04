@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-02-22 08:55+0000\n"
+"POT-Creation-Date: 2013-03-04 13:26+0000\n"
 "PO-Revision-Date: 2013-02-22 08:52+0100\n"
 "Last-Translator: Simone Orsi <simahawk@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,55 +14,63 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./../config.py:7
+#: sc/contentrules/groupbydate/config.py:7
 msgid " One level up"
 msgstr "Un livello piú su"
 
-#: ./../config.py:8
+#: sc/contentrules/groupbydate/config.py:8
 msgid " Same folder of content"
 msgstr "Stesso cartella del contenuto"
 
-#: ./../actions/groupbydate.py:192
+#: sc/contentrules/groupbydate/actions/groupbydate.py:204
 msgid "A content rules action to move an item to a folder structure."
 msgstr "Un'azione per regola di contenuto per spostare un oggetto in una gerarchia di cartelle."
 
-#: ./../actions/groupbydate.py:191
+#: ../configure.zcml
+msgid "Action for content rules that creates a date-based folder structure."
+msgstr ""
+
+#: sc/contentrules/groupbydate/actions/groupbydate.py:203
 msgid "Add group by date folder action"
 msgstr "Aggiungi azione 'raggruppa per cartelle data'"
 
-#: ./../interfaces.py:33
+#: sc/contentrules/groupbydate/interfaces.py:33
 msgid "Base folder"
 msgstr "Cartella base"
 
-#: ./../actions/groupbydate.py:85
+#: sc/contentrules/groupbydate/actions/groupbydate.py:86
 msgid "Base folder ${target} does not exist."
 msgstr "La cartella base ${target} non esiste"
 
-#: ./../interfaces.py:48
+#: sc/contentrules/groupbydate/interfaces.py:48
 msgid "Choose hierarchy structure. Use strftime formating. e.g.: '%Y/%m/%d' to have 2011/11/17 or '%Y/%m' to have 2011/11"
 msgstr "Scegli la gerarchia. Usa la formattazione di strftime. Es: '%Y/%m/%d' per avere '2011/11/17' o  '%Y/%m' per avere '2011/11'"
 
-#: ./../interfaces.py:34
+#: sc/contentrules/groupbydate/interfaces.py:34
 msgid "Choose the base folder for the date hierarchy."
 msgstr "Scegli la cartella base per la gerarchia di date."
 
-#: ./../interfaces.py:40
+#: sc/contentrules/groupbydate/interfaces.py:40
 msgid "Container"
 msgstr "Contenitore"
 
-#: ./../actions/groupbydate.py:207
+#: ../configure.zcml
+msgid "Content rules: Date-based folder action"
+msgstr ""
+
+#: sc/contentrules/groupbydate/actions/groupbydate.py:219
 msgid "Edit group by date action"
 msgstr "Modifica l'azione 'raggruppa per data'"
 
-#: ./../interfaces.py:47
+#: sc/contentrules/groupbydate/interfaces.py:47
 msgid "Hierarchy structure"
 msgstr "Gerarchia cartelle"
 
-#: ./../actions/groupbydate.py:48
+#: sc/contentrules/groupbydate/actions/groupbydate.py:49
 msgid "Move the item under ${base_folder} using ${structure} structure"
 msgstr "Sposta l'oggetto sotto ${base_folder} usando la struttura ${structure}"
 
-#: ./../interfaces.py:41
+#: sc/contentrules/groupbydate/interfaces.py:41
 msgid "Select the type of container in which the structure will be based."
 msgstr "Seleziona il tipo di contenitore che fará da base alla gerarchia di cartelle."
 
