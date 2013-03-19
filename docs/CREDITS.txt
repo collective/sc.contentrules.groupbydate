@@ -6,6 +6,7 @@ Contributors
 - Gustavo Lepri
 - Héctor Velarde
 - Alejandro Pereira
+- Simone Orsi
 
 Development sponsored by Simples Consultoria.
 
