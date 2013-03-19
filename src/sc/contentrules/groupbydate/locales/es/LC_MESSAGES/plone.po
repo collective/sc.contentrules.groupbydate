@@ -1,10 +1,10 @@
 # Héctor Velarde <hector.velarde@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: sc.contentrules.groupbydate 2.0\n"
 "POT-Creation-Date: 2009-02-27 17:16+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-03-19 17:13-0300\n"
+"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: Spanish <https://github.com/collective>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -17,9 +17,9 @@ msgstr ""
 
 #: ../configure.zcml
 msgid "Move an item to a date-based folder structure."
-msgstr ""
+msgstr "Mueve un ítem a una estructura de carpetas con base en la fecha."
 
 #: ../configure.zcml
 msgid "Organize content by date"
-msgstr ""
+msgstr "Organiza contenido por fecha"
 

@@ -1,9 +1,9 @@
 # Héctor Velarde <hector.velarde@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: sc.contentrules.groupbydate\n"
+"Project-Id-Version: sc.contentrules.groupbydate 2.0\n"
 "POT-Creation-Date: 2013-03-19 00:16+0000\n"
-"PO-Revision-Date: 2012-06-13 18:45-0300\n"
+"PO-Revision-Date: 2013-03-19 17:12-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: Spanish <https://github.com/collective>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Una regla de contenido que mueve un item a una estructura de carpetas."
 
 #: ../configure.zcml
 msgid "Action for content rules that creates a date-based folder structure."
-msgstr ""
+msgstr "Acción para reglas de contenido que crea una estructura de carpetas con base en la fecha."
 
 #: sc/contentrules/groupbydate/actions/groupbydate.py:203
 msgid "Add group by date folder action"
@@ -53,11 +53,11 @@ msgstr "Seleccione la carpeta que servirá de base a la jerarquía de fechas."
 
 #: sc/contentrules/groupbydate/interfaces.py:40
 msgid "Container"
-msgstr ""
+msgstr "Contenedor"
 
 #: ../configure.zcml
 msgid "Content rules: Date-based folder action"
-msgstr ""
+msgstr "Reglas de contenido: acción de carpetas con base en la fecha"
 
 #: sc/contentrules/groupbydate/actions/groupbydate.py:219
 msgid "Edit group by date action"
@@ -73,5 +73,5 @@ msgstr "Mueve el item debajo de ${base_folder} usando la estructura ${structure}
 
 #: sc/contentrules/groupbydate/interfaces.py:41
 msgid "Select the type of container in which the structure will be based."
-msgstr ""
+msgstr "Seleccione el tipo de contenedor en el cual se basará la estructura."
 
