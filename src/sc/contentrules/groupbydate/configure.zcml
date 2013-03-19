@@ -4,7 +4,7 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    i18n_domain="sc.contentrules.groupbydate">
+    i18n_domain="plone">
 
     <i18n:registerTranslations directory="locales" />
 
@@ -32,7 +32,7 @@
     <adapter factory=".actions.groupbydate.GroupByDateActionExecutor" />
     <plone:ruleAction
         name="sc.contentrules.actions.groupbydate"
-        title="Move an item to a date-based folder structure"
+        title="Organize content by date"
         description="Move an item to a date-based folder structure."
         for="*"
         event="zope.component.interfaces.IObjectEvent"
