@@ -15,3 +15,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
+#: ../configure.zcml
+msgid "Move an item to a date-based folder structure."
+msgstr ""
+
+#: ../configure.zcml
+msgid "Organize content by date"
+msgstr ""
+
