@@ -12,3 +12,5 @@ i18ndude rebuild-pot --pot $LOCALES/sc.contentrules.groupbydate.pot --create sc.
 # finally, update the po files
 i18ndude sync --pot $LOCALES/sc.contentrules.groupbydate.pot  `find . -iregex '.*sc.contentrules.groupbydate\.po$'|grep -v plone`
 
+# Update Plone domain files
+i18ndude sync --pot $LOCALES/plone.pot  `find . -iregex '.*plone\.po$'`
