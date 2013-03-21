@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sc.contentrules.groupbydate 2.0\n"
 "POT-Creation-Date: 2013-03-19 00:16+0000\n"
-"PO-Revision-Date: 2013-02-22 08:52+0100\n"
+"PO-Revision-Date: 2013-03-21 09:59+0100\n"
 "Last-Translator: Simone Orsi <simahawk@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Un'azione per regola di contenuto per spostare un oggetto in una gerarch
 
 #: ../configure.zcml
 msgid "Action for content rules that creates a date-based folder structure."
-msgstr ""
+msgstr "Azione per regola di contenuto che crea una struttura di cartelle basata su data."
 
 #: sc/contentrules/groupbydate/actions/groupbydate.py:203
 msgid "Add group by date folder action"
@@ -56,7 +56,7 @@ msgstr "Contenitore"
 
 #: ../configure.zcml
 msgid "Content rules: Date-based folder action"
-msgstr ""
+msgstr "Regole di contenuto: azione cartella basata su data"
 
 #: sc/contentrules/groupbydate/actions/groupbydate.py:219
 msgid "Edit group by date action"
