@@ -1,26 +1,31 @@
 # -*- coding:utf-8 -*-
+
+from setuptools import find_packages
+from setuptools import setup
+
 import os
-from setuptools import setup, find_packages
 
 version = '2.0b3.dev0'
-long_description = (open("README.rst").read() + "\n" +
-                    open(os.path.join("docs", "CREDITS.txt")).read() + "\n" +
-                    open(os.path.join("docs", "HISTORY.txt")).read())
+description = u"A Plone content rules action that creates a chronological archive."
+long_description = open("README.rst").read() + "\n" + \
+    open(os.path.join("docs", "CREDITS.rst")).read() + "\n" + \
+    open(os.path.join("docs", "HISTORY.rst")).read()
 
 setup(name='sc.contentrules.groupbydate',
       version=version,
-      description=u"A Plone content rules action that creates a chronological "
-                  u"archive.",
+      description=description,
       long_description=long_description,
       classifiers=[
           "Development Status :: 5 - Production/Stable",
            "Environment :: Web Environment",
            "Framework :: Plone",
            "Framework :: Plone :: 4.2",
+           "Framework :: Plone :: 4.3",
            "Intended Audience :: System Administrators",
            "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
            "Operating System :: OS Independent",
            "Programming Language :: Python",
+           "Programming Language :: Python :: 2.6",
            "Programming Language :: Python :: 2.7",
            "Topic :: Software Development :: Libraries :: Python Modules",
       ],
