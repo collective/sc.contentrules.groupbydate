@@ -6,6 +6,7 @@
 .mr.developer.cfg
 bin/
 build/
+coverage/
 develop-eggs/
 downloads/
 eggs/
