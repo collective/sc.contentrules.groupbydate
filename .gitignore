@@ -1,13 +1,9 @@
-*~
 *.egg-info
 *.mo
 *.pyc
+*~
 .installed.cfg
 .mr.developer.cfg
-log.html
-output.xml
-report.html
-selenium*
 bin/
 build/
 develop-eggs/
@@ -15,6 +11,10 @@ downloads/
 eggs/
 include/
 lib/
+log.html
+Makefile
+output.xml
 parts/
-src/collective.grok/
+report.html
+selenium*
 var/
