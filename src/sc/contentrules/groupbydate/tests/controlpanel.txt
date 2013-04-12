@@ -63,7 +63,8 @@ Clicking it will take us to the Content Rules configuration::
     >>> browser.getLink('Content Rules').click()
     >>> browser.url.endswith('@@rules-controlpanel')
     True
-    >>> 'Content Rules' in browser.contents
+
+    >>> 'Content rules' in browser.contents
     True
 
 
