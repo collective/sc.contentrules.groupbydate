@@ -4,6 +4,9 @@ Changelog
 2.0b3 (unreleased)
 ^^^^^^^^^^^^^^^^^^
 
+- Plone 4.3 supported
+  [ericof]
+
 - Update translations, add italian traslation
   [simahawk]
 
