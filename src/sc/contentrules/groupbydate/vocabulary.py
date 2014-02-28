@@ -5,9 +5,10 @@ from plone.app.vocabularies.terms import BrowsableTerm
 from Products.CMFCore.interfaces._content import IFolderish
 from Products.CMFCore.utils import getToolByName
 from sc.contentrules.groupbydate.config import RELPATHVOC
+from zope.component import queryUtility
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 import logging
 
@@ -65,19 +66,21 @@ class ContainerSearcher(object):
         context = getattr(context, 'context', context)
         portal_url = getToolByName(context, 'portal_url')
         site = portal_url.getPortalObject()
-        new_list = []
         pt = getToolByName(site, 'portal_types')
-        types = pt.listTypeInfo()
-        for site_type in types:
+        # Use only Friendly Types
+        util = queryUtility(IVocabularyFactory, 'plone.app.vocabularies.ReallyUserFriendlyTypes')
+        types = util(context)
+        types_ids = types.by_token.keys()
+        folderish = []
+        for type_id in types_ids:
+            site_type = pt[type_id]
             if (site_type.global_allow) and (site_type.isConstructionAllowed(site)):
-                type_id = site_type.getId()
+                term = types.by_token[type_id]
                 site.invokeFactory(type_id, 'item')
                 item = site['item']
                 if IFolderish.providedBy(item):
-                        new_list.append(SimpleTerm(type_id,
-                                        type_id))
-
+                    folderish.append(term)
                 del site['item']
-        return SimpleVocabulary(new_list)
+        return SimpleVocabulary(folderish)
 
 ContainerSearcherFactory = ContainerSearcher()
