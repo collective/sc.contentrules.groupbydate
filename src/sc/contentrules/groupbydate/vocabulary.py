@@ -69,8 +69,7 @@ class ContainerSearcher(object):
         pt = getToolByName(site, 'portal_types')
         types = pt.listTypeInfo()
         for site_type in types:
-            if (site_type.global_allow is True) and \
-               (site_type.isConstructionAllowed(site) is True):
+            if (site_type.global_allow) and (site_type.isConstructionAllowed(site)):
                 type_id = site_type.getId()
                 site.invokeFactory(type_id, 'item')
                 item = site['item']
