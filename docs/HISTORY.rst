@@ -1,8 +1,18 @@
 Changelog
 ---------
 
-2.0b3 (unreleased)
+2.0.1 (unreleased)
 ^^^^^^^^^^^^^^^^^^
+
+- Dexterity content types are now listed as options to folder creation
+  [ericof]
+
+- Code cleanup
+  [ericof]
+
+
+2.0 (2013-04-13)
+^^^^^^^^^^^^^^^^^^^
 
 - Plone 4.3 supported
   [ericof]
