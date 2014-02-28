@@ -1,22 +1,15 @@
 # -*- coding: utf-8 -*-
-import logging
-
+from plone.app.vocabularies.catalog import QuerySearchableTextSourceView
+from plone.app.vocabularies.catalog import SearchableTextSource
+from plone.app.vocabularies.terms import BrowsableTerm
+from Products.CMFCore.interfaces._content import IFolderish
+from Products.CMFCore.utils import getToolByName
+from sc.contentrules.groupbydate.config import RELPATHVOC
 from zope.interface import implements
-
 from zope.schema.interfaces import IVocabularyFactory
-
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
-from Products.CMFCore.utils import getToolByName
-
-from Products.CMFCore.interfaces._content import IFolderish
-
-from plone.app.vocabularies.catalog import SearchableTextSource
-from plone.app.vocabularies.catalog import QuerySearchableTextSourceView
-
-from plone.app.vocabularies.terms import BrowsableTerm
-
-from sc.contentrules.groupbydate.config import RELPATHVOC
+import logging
 
 logger = logging.getLogger('sc.contentrules.groupbydate')
 
