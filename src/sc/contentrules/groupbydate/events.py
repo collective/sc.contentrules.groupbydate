@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-
-from zope.interface import implements
 from zope.component.interfaces import IObjectEvent
+from zope.interface import implements
 
 
 class IObjectGroupedByDate(IObjectEvent):

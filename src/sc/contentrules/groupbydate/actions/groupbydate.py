@@ -1,36 +1,25 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_parent
-
+from DateTime import DateTime
 from OFS.SimpleItem import SimpleItem
-
-from zope.component import adapts
-from zope.event import notify
-from zope.interface import Interface
-from zope.interface import implements
-from zope.lifecycleevent import ObjectAddedEvent
-from zope.formlib import form
-from plone.contentrules.engine.interfaces import IRuleExecutor
-
-from Products.CMFCore.utils import getToolByName
-
-from Products.CMFPlone.utils import _createObjectByType
-
+from plone.app.contentrules.actions.move import MoveActionExecutor
 from plone.app.contentrules.browser.formhelper import AddForm
 from plone.app.contentrules.browser.formhelper import EditForm
-
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
-
-from plone.contentrules.rule.interfaces import IRuleElementData
+from plone.contentrules.engine.interfaces import IRuleExecutor
 from plone.contentrules.rule.interfaces import IExecutable
-
-from plone.app.contentrules.actions.move import MoveActionExecutor
-
-from DateTime import DateTime
-
-from sc.contentrules.groupbydate.interfaces import IGroupByDateAction
-from sc.contentrules.groupbydate.events import ObjectGroupedByDate
-
+from plone.contentrules.rule.interfaces import IRuleElementData
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import _createObjectByType
 from sc.contentrules.groupbydate import MessageFactory as _
+from sc.contentrules.groupbydate.events import ObjectGroupedByDate
+from sc.contentrules.groupbydate.interfaces import IGroupByDateAction
+from zope.component import adapts
+from zope.event import notify
+from zope.formlib import form
+from zope.interface import implements
+from zope.interface import Interface
+from zope.lifecycleevent import ObjectAddedEvent
 
 
 class GroupByDateAction(SimpleItem):
@@ -52,7 +41,7 @@ class GroupByDateAction(SimpleItem):
 
 
 class GroupByDateActionExecutor(MoveActionExecutor):
-    """The executor for this action.
+    """ The executor for this action.
     """
     implements(IExecutable)
     adapts(Interface, IGroupByDateAction, Interface)
@@ -64,8 +53,8 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         self.wt = getToolByName(context, 'portal_workflow')
 
     def __call__(self):
-        '''  Executes action, moving content to a date based folder structure
-        '''
+        """  Executes action, moving content to a date based folder structure
+        """
         context = self.context
         self._pstate = context.unrestrictedTraverse('@@plone_portal_state')
         self._portal = self._pstate.portal()
@@ -107,15 +96,15 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         return result
 
     def _relPathToPortal(self, obj):
-        ''' Given an object we return it's relative path to portal
-        '''
+        """ Given an object we return it's relative path to portal
+        """
         portalPath = self._portalPath
         return list(obj.getPhysicalPath())[len(portalPath):]
 
     def _base_folder(self, base_folder, obj):
-        ''' Given a base_folder string and the object triggering the event, we
+        """ Given a base_folder string and the object triggering the event, we
             return the base object to be used by this action.
-        '''
+        """
         # Large portions of this code came from Products.ATContentTypes
         # TODO: a package to deal with this kind of stuff (string to object?)
         # sanitize a bit: you never know, with all those win users out there
@@ -164,8 +153,8 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         return baseFolder
 
     def _createFolderStructure(self, folder, structure='ymd', date=None):
-        ''' Create a folder structure and then return our innermost folder
-        '''
+        """ Create a folder structure and then return our innermost folder
+        """
         if not date:
             date = DateTime()
 

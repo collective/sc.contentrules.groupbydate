@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
-
+from sc.contentrules.groupbydate import MessageFactory as _
+from sc.contentrules.groupbydate.vocabulary import (RelPathSearchableTextSource as
+                                                    SearchableTextSource)
 from zope.interface import implements
 from zope.interface import Interface
-
 from zope.schema import Choice
 from zope.schema import TextLine
-
 from zope.schema.interfaces import IContextSourceBinder
-
-from sc.contentrules.groupbydate.vocabulary import (RelPathSearchableTextSource
-                                                    as SearchableTextSource)
-from sc.contentrules.groupbydate import MessageFactory as _
 
 
 class SearchableTS(object):
