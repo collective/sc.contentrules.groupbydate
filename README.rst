@@ -98,6 +98,9 @@ Mostly Harmless
 .. image:: https://secure.travis-ci.org/collective/sc.contentrules.groupbydate.png
     :target: http://travis-ci.org/collective/sc.contentrules.groupbydate
 
+.. image:: https://coveralls.io/repos/collective/sc.contentrules.groupbydate/badge.png :target: https://coveralls.io/r/collective/sc.contentrules.groupbydate
+
+
 Have an idea? Found a bug? Let us know by `opening a support ticket`_.
 
 .. _`opening a support ticket`: https://github.com/collective/sc.contentrules.groupbydate/issues
