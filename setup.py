@@ -5,7 +5,7 @@ from setuptools import setup
 
 import os
 
-version = '2.0.1'
+version = '2.0.2.dev0'
 description = u"A Plone content rules action that creates a chronological archive."
 long_description = open("README.rst").read() + "\n" + \
     open(os.path.join("docs", "CREDITS.rst")).read() + "\n" + \
