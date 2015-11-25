@@ -4,7 +4,8 @@ Changelog
 2.0.2 (unreleased)
 ^^^^^^^^^^^^^^^^^^^
 
-- Nothing changed yet.
+- Remove dependency on unittest2; drop explicit support to Python 2.6.
+  [hvelarde]
 
 
 2.0.1 (2014-03-10)
