@@ -1,7 +1,13 @@
 Changelog
 ---------
 
-2.0.1 (unreleased)
+2.0.2 (unreleased)
+^^^^^^^^^^^^^^^^^^^
+
+- Nothing changed yet.
+
+
+2.0.1 (2014-03-10)
 ^^^^^^^^^^^^^^^^^^
 
 - Dexterity content types are now listed as options to folder creation
@@ -21,7 +27,7 @@ Changelog
   [simahawk]
 
 - Update README and move to rst
-  [simahawk] 
+  [simahawk]
 
 
 2.0b2 (2012-11-30)
@@ -135,4 +141,3 @@ Changelog
 - Initial release
 
 .. _`#1`: https://github.com/collective/sc.contentrules.groupbydate/issues/1
-
