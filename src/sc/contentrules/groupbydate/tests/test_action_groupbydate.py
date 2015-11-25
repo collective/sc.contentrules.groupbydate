@@ -54,11 +54,11 @@ class TestGroupByDateAction(unittest.TestCase):
     def testRegistered(self):
         element = getUtility(IRuleAction,
                              name='sc.contentrules.actions.groupbydate')
-        self.assertEquals('sc.contentrules.actions.groupbydate',
-                          element.addview)
-        self.assertEquals('edit', element.editview)
-        self.assertEquals(None, element.for_)
-        self.assertEquals(IObjectEvent, element.event)
+        self.assertEqual(
+            'sc.contentrules.actions.groupbydate', element.addview)
+        self.assertEqual('edit', element.editview)
+        self.assertIsNone(element.for_)
+        self.assertEqual(IObjectEvent, element.event)
 
     def testInvokeAddView(self):
         element = getUtility(IRuleAction,
@@ -76,8 +76,8 @@ class TestGroupByDateAction(unittest.TestCase):
                                    'structure': 'ymd'})
 
         e = rule.actions[0]
-        self.failUnless(isinstance(e, GroupByDateAction))
-        self.assertEquals('/target', e.base_folder)
+        self.assertIsInstance(e, GroupByDateAction)
+        self.assertEqual('/target', e.base_folder)
 
     def testInvokeEditView(self):
         element = getUtility(IRuleAction,
@@ -85,7 +85,7 @@ class TestGroupByDateAction(unittest.TestCase):
         e = GroupByDateAction()
         editview = getMultiAdapter((e, self.folder.REQUEST),
                                    name=element.editview)
-        self.failUnless(isinstance(editview, GroupByDateEditForm))
+        self.assertIsInstance(editview, GroupByDateEditForm)
 
     def testActionSummary(self):
         e = GroupByDateAction()
@@ -94,7 +94,7 @@ class TestGroupByDateAction(unittest.TestCase):
         e.roles = set(['Reader', ])
         summary = (u"Move the item under ${base_folder} using ${structure} "
                    u"structure")
-        self.assertEquals(summary, e.summary)
+        self.assertEqual(summary, e.summary)
 
     def testExecute(self):
         e = GroupByDateAction()
@@ -103,12 +103,12 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d1' in self.folder.objectIds())
+        self.assertNotIn('d1', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
                                                          e.base_folder[1:])
-        self.failUnless('d1' in target_folder.objectIds())
+        self.assertIn('d1', target_folder.objectIds())
 
     def testExecuteWithError(self):
         e = GroupByDateAction()
@@ -117,10 +117,10 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(False, ex())
+        self.assertFalse(ex())
 
-        self.failUnless('d1' in self.folder.objectIds())
-        self.failIf('d1' in self.portal.target.objectIds())
+        self.assertIn('d1', self.folder.objectIds())
+        self.assertNotIn('d1', self.portal.target.objectIds())
 
     def testExecuteWithoutPermissionsOnTarget(self):
         setRoles(self.portal, TEST_USER_ID, ['Member', ])
@@ -131,12 +131,12 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertEqual(True, ex())
 
-        self.failIf('d1' in self.folder.objectIds())
+        self.assertNotIn('d1', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
                                                          e.base_folder[1:])
-        self.failUnless('d1' in target_folder.objectIds())
+        self.assertIn('d1', target_folder.objectIds())
 
     def testExecuteWithNamingConflict(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager', ])
@@ -157,11 +157,11 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d1' in self.folder.objectIds())
-        self.failUnless('d1' in target_folder.objectIds())
-        self.failUnless('d1.1' in target_folder.objectIds())
+        self.assertNotIn('d1', self.folder.objectIds())
+        self.assertIn('d1', target_folder.objectIds())
+        self.assertIn('d1.1', target_folder.objectIds())
 
     def testExecuteWithSameSourceAndTargetFolder(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager', ])
@@ -182,9 +182,9 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((target_folder, e, DummyEvent(target_folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.assertEquals(['d1'], list(target_folder.objectIds()))
+        self.assertEqual(['d1'], list(target_folder.objectIds()))
 
     def testExecuteWithRelativePath(self):
         ''' Execute the action with a valid relative path
@@ -196,12 +196,12 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d1' in self.folder.objectIds())
+        self.assertNotIn('d1', self.folder.objectIds())
         relativeTarget = self.folder.relativeTarget
         target_folder = relativeTarget.unrestrictedTraverse('2009/04/22')
-        self.failUnless('d1' in target_folder.objectIds())
+        self.assertIn('d1', target_folder.objectIds())
 
     def testExecuteWithLongRelativePath(self):
         ''' Execute the action with a valid relative path
@@ -215,11 +215,11 @@ class TestGroupByDateAction(unittest.TestCase):
         e.container = 'Folder'
 
         ex = getMultiAdapter((folder, e, DummyEvent(folder.d2)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d2' in folder.objectIds())
+        self.assertNotIn('d2', folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('2009/04/22')
-        self.failUnless('d2' in target_folder.objectIds())
+        self.assertIn('d2', target_folder.objectIds())
 
     def testExecuteWithoutBaseFolder(self):
         ''' Execute the action without a path
@@ -231,11 +231,11 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d1' in self.folder.objectIds())
+        self.assertNotIn('d1', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('2009/04/22')
-        self.failUnless('d1' in target_folder.objectIds())
+        self.assertIn('d1', target_folder.objectIds())
 
     def testExecuteWithoutEffectiveDate(self):
         ''' Execute the action without an effective date
@@ -248,12 +248,12 @@ class TestGroupByDateAction(unittest.TestCase):
         e.container = 'Folder'
 
         ex = getMultiAdapter((folder, e, DummyEvent(folder.d2)), IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d2' in folder.objectIds())
+        self.assertNotIn('d2', folder.objectIds())
         path = DateTime().strftime('%Y/%m/%d')
         target_folder = self.folder.unrestrictedTraverse(path)
-        self.failUnless('d2' in target_folder.objectIds())
+        self.assertIn('d2', target_folder.objectIds())
 
     def testExecuteWithNonExistantRelativePath(self):
         ''' Execute the action with a non existent relative path
@@ -265,9 +265,9 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(False, ex())
+        self.assertFalse(ex())
 
-        self.failUnless('d1' in self.folder.objectIds())
+        self.assertIn('d1', self.folder.objectIds())
 
     def testExecuteFromPloneSite(self):
         ''' Execute the action with a non existent relative path
@@ -281,10 +281,10 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal.d2)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
         target_folder = self.portal.unrestrictedTraverse('2009/04/22')
-        self.failUnless('d2' in target_folder.objectIds())
+        self.assertIn('d2', target_folder.objectIds())
 
     def testExecuteDifferentContainer(self):
         e = GroupByDateAction()
@@ -293,12 +293,12 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d1' in self.folder.objectIds())
+        self.assertNotIn('d1', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
                                                          e.base_folder[1:])
-        self.assertTrue(isinstance(target_folder, ATTopic))
+        self.assertIsInstance(target_folder, ATTopic)
 
     def testStrftimeFmt(self):
         ''' Execute the action using a valid strftime formatting string
@@ -310,12 +310,12 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d1' in self.folder.objectIds())
+        self.assertNotIn('d1', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04' %
                                                          e.base_folder[1:])
-        self.failUnless('d1' in target_folder.objectIds())
+        self.assertIn('d1',target_folder.objectIds())
 
     def testWrongStrftimeFmt(self):
         ''' Execute the action using a typoed strftime formatting string
@@ -327,12 +327,12 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('d1' in self.folder.objectIds())
+        self.assertNotIn('d1', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/Y/04' %
                                                          e.base_folder[1:])
-        self.failUnless('d1' in target_folder.objectIds())
+        self.assertIn('d1',target_folder.objectIds())
 
     def testExecutionOnCMFContent(self):
         ''' Tests if the rules works with CMF Content
@@ -345,12 +345,12 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(o)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
 
-        self.failIf('cmf' in self.folder.objectIds())
+        self.assertNotIn('cmf', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
                                                          e.base_folder[1:])
-        self.failUnless('cmf' in target_folder.objectIds())
+        self.assertIn('cmf', target_folder.objectIds())
 
     def testFolderNotifyAddedEvent(self):
         from zope.component import adapter
@@ -379,10 +379,10 @@ class TestGroupByDateAction(unittest.TestCase):
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEquals(True, ex())
+        self.assertTrue(ex())
         invocations = self.handler.invocations
-        self.assertEquals(len(invocations), 3)
-        self.assertEquals(self.handler.counter, 3)
-        self.assertEquals(invocations[0].getId(), '2009')
-        self.assertEquals(invocations[1].getId(), '04')
-        self.assertEquals(invocations[2].getId(), '22')
+        self.assertEqual(len(invocations), 3)
+        self.assertEqual(self.handler.counter, 3)
+        self.assertEqual(invocations[0].getId(), '2009')
+        self.assertEqual(invocations[1].getId(), '04')
+        self.assertEqual(invocations[2].getId(), '22')
