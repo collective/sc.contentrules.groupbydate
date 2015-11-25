@@ -144,7 +144,7 @@ class TestGroupByDateAction(unittest.TestCase):
 
         target_folder = self.portal.target
         for folder in target_folder_path:
-            if not folder in target_folder.objectIds():
+            if folder not in target_folder.objectIds():
                 target_folder.invokeFactory('Folder', folder)
             target_folder = target_folder[folder]
         target_folder.invokeFactory('Document', 'd1')
@@ -169,7 +169,7 @@ class TestGroupByDateAction(unittest.TestCase):
 
         target_folder = self.portal.target
         for folder in target_folder_path:
-            if not folder in target_folder.objectIds():
+            if folder not in target_folder.objectIds():
                 target_folder.invokeFactory('Folder', folder)
             target_folder = target_folder[folder]
 
@@ -315,7 +315,7 @@ class TestGroupByDateAction(unittest.TestCase):
         self.assertNotIn('d1', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/2009/04' %
                                                          e.base_folder[1:])
-        self.assertIn('d1',target_folder.objectIds())
+        self.assertIn('d1', target_folder.objectIds())
 
     def testWrongStrftimeFmt(self):
         ''' Execute the action using a typoed strftime formatting string
@@ -332,7 +332,7 @@ class TestGroupByDateAction(unittest.TestCase):
         self.assertNotIn('d1', self.folder.objectIds())
         target_folder = self.portal.unrestrictedTraverse('%s/Y/04' %
                                                          e.base_folder[1:])
-        self.assertIn('d1',target_folder.objectIds())
+        self.assertIn('d1', target_folder.objectIds())
 
     def testExecutionOnCMFContent(self):
         ''' Tests if the rules works with CMF Content
@@ -371,7 +371,7 @@ class TestGroupByDateAction(unittest.TestCase):
             def handler(self, event):
                 obj = event.object
                 self.counter += 1
-                if not obj in self.invocations:
+                if obj not in self.invocations:
                     self.invocations.append(obj)
 
         self.handler = Handler()

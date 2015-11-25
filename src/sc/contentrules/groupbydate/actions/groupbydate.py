@@ -108,7 +108,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         # Large portions of this code came from Products.ATContentTypes
         # TODO: a package to deal with this kind of stuff (string to object?)
         # sanitize a bit: you never know, with all those win users out there
-        relPath = base_folder.replace("\\", "/")
+        relPath = base_folder.replace('\\', '/')
         if not relPath:
             return self._portal
         if relPath[0] == '/':
@@ -170,7 +170,7 @@ class GroupByDateActionExecutor(MoveActionExecutor):
         # executed for the newly created folders
         executor = IRuleExecutor(self.context, None)
         for fId in folderStructure:
-            if not fId in folder.objectIds():
+            if fId not in folder.objectIds():
                 _createObjectByType(container, folder, id=fId,
                                     title=fId, description=fId)
                 folder = folder[fId]
