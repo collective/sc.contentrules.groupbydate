@@ -1,15 +1,14 @@
 # -*- coding:utf-8 -*-
-
 from setuptools import find_packages
 from setuptools import setup
 
-import os
-
 version = '2.0.2.dev0'
 description = u"A Plone content rules action that creates a chronological archive."
-long_description = open("README.rst").read() + "\n" + \
-    open(os.path.join("docs", "CREDITS.rst")).read() + "\n" + \
-    open(os.path.join("docs", "HISTORY.rst")).read()
+long_description = (
+    open('README.rst').read() + '\n' +
+    open('CONTRIBUTORS.rst').read() + '\n' +
+    open('CHANGES.rst').read()
+)
 
 setup(name='sc.contentrules.groupbydate',
       version=version,
