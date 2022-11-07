@@ -38,7 +38,7 @@ We will authenticate as manager using the *login_form*::
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
     >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
-    >>> browser.getControl(name='submit').click()
+    >>> browser.getControl(name='buttons.login').click()
 
 If everything worked as expected we will see the welcome message::
 
@@ -73,18 +73,18 @@ Creating a new content rule
 
 We will create a new content rule so we can test our add and edit views::
 
-    >>> browser.getControl('Add content rule').click()
+    >>> browser.getLink('Add content rule').click()
 
 Fill the title, description and select 'Object added to this container' as
 trigger::
 
-    >>> browser.getControl(name='form.title').value = 'Organize News Items'
-    >>> browser.getControl(name='form.description').value = 'Organize published News Items'
-    >>> browser.getControl(name='form.event').value = ['Object added to this container']
+    >>> browser.getControl(name='form.widgets.title').value = 'Organize News Items'
+    >>> browser.getControl(name='form.widgets.description').value = 'Organize published News Items'
+    >>> browser.getControl(name='form.widgets.event:list').value = ['Object added to this container']
 
 Click save::
 
-    >>> browser.getControl(name='form.actions.save').click()
+    >>> browser.getControl(name='form.buttons.save').click()
 
 And we are back to the Content Rules control panel::
 
@@ -109,32 +109,35 @@ And we should be redirected to our add view:
 We configure or action to use Folder as container and create the structure
 using year, month, day ::
 
-    >>> browser.getControl(name='form.base_folder.query.selection').value = ['./',]
-    >>> browser.getControl(name='form.base_folder.query.apply').click()
-
-    >>> browser.getControl(name='form.container').value = ['Folder',]
-    >>> browser.getControl(name='form.structure').value = '%Y/%m/%d'
-    >>> browser.getControl(name='form.actions.save').click()
+    >>> news_uid = portal.news.UID()
+    >>> browser.getControl(name='form.widgets.base_folder').value = [news_uid,]
+    >>> browser.getControl(name='form.widgets.container').value = ['Folder',]
+    >>> browser.getControl(name='form.widgets.structure').value = '%Y/%m/%d'
+    >>> browser.getControl(name='form.buttons.save').click()
 
 Then we are back to the management of 'Organize News Items' content rule::
 
     >>> browser.open('@@manage-elements')
+    >>> browser.url
+    'http://nohost/plone/++rule++rule-1/@@manage-elements'
 
 We will edit our action::
 
     >>> browser.getControl(name='form.button.EditAction').click()
-    >>> browser.url.endswith('++action++0/edit')
+    >>> browser.getControl(name='form.button.confirm').click()
+    >>> '++rule++rule-1/++action++0/edit' in browser.url
     True
 
-And change the base folder. First we search for News::
+And change the base folder. First we substitute News with Press Room::
 
-    >>> browser.getControl(name='form.base_folder.query').value = 'News'
-    >>> browser.getControl(name='form.base_folder.search').click()
+    >>> folder_id = portal.invokeFactory('Folder', 'press-room', title='Press Room')
+    >>> transaction.commit()
 
-Then we confirm the search result and save::
+    >>> pressroom_uid = portal['press-room'].UID()
+    >>> browser.getControl(name='form.widgets.base_folder').value = [pressroom_uid,]
+    >>> browser.getControl(name='form.buttons.save').click()
 
-    >>> browser.getControl(name='form.base_folder', index=1).options[2]
-    '/news'
-    >>> browser.getControl(name='form.base_folder', index=1).value = ['/news']
-    >>> browser.getControl(name='form.base_folder.update').click()
-    >>> browser.getControl(name='form.actions.save').click()
+Then we confirm the modifications::
+
+    >>> f'Move the item under {pressroom_uid}' in browser.contents
+    True

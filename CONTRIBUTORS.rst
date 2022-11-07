@@ -7,6 +7,7 @@ Contributors
 - Héctor Velarde
 - Alejandro Pereira
 - Simone Orsi
+- Riccardo Lemmi
 
 You can find an updated list of package contributors on `GitHub`_.
 

@@ -8,28 +8,26 @@
 
     <i18n:registerTranslations directory="locales" />
 
-    <!-- Plone 4: If you use the the cmf.ManagePortal permission for exemple.-->
-    <include zcml:condition="have plone-4" package="Products.CMFCore" file="permissions.zcml" />
-
     <include package="plone.app.contentrules" />
 
     <!-- Forms -->
     <browser:page
       for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
       name="sc.contentrules.actions.groupbydate"
-      class=".actions.groupbydate.GroupByDateAddForm"
-      permission="cmf.ManagePortal"
+      class=".actions.groupbydate.GroupByDateAddFormView"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <browser:page
       for="sc.contentrules.groupbydate.interfaces.IGroupByDateAction"
       name="edit"
-      class=".actions.groupbydate.GroupByDateEditForm"
-      permission="cmf.ManagePortal"
+      class=".actions.groupbydate.GroupByDateEditFormView"
+      permission="plone.app.contentrules.ManageContentRules"
       />
 
     <!-- Action -->
     <adapter factory=".actions.groupbydate.GroupByDateActionExecutor" />
+
     <plone:ruleAction
         name="sc.contentrules.actions.groupbydate"
         title="Organize content by date"
@@ -53,14 +51,14 @@
          for=".vocabulary.RelPathSearchableTextSource
               zope.publisher.interfaces.browser.IBrowserRequest"
          factory=".vocabulary.RelPathQSTSourceView"
-         provides="zope.app.form.browser.interfaces.ITerms"
+         provides="zope.browser.interfaces.ITerms"
          />
 
      <adapter
          for=".vocabulary.RelPathSearchableTextSource
               zope.publisher.interfaces.browser.IBrowserRequest"
          factory=".vocabulary.RelPathQSTSourceView"
-         provides="zope.app.form.browser.interfaces.ISourceQueryView"
+         provides="zope.formlib.interfaces.ISourceQueryView"
          />
 
 </configure>

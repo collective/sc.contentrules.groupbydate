@@ -7,7 +7,7 @@ from DateTime import DateTime
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import getUtility, getMultiAdapter
 from zope.component.interfaces import IObjectEvent
 
@@ -16,40 +16,43 @@ from plone.app.contentrules.rule import Rule
 from plone.contentrules.engine.interfaces import IRuleStorage
 from plone.contentrules.rule.interfaces import IRuleAction
 from plone.contentrules.rule.interfaces import IExecutable
+from plone.app.contentrules.tests.base import ContentRulesTestCase
 
-from Products.CMFDefault.Document import Document
-
-from Products.ATContentTypes.content.topic import ATTopic
+from plone.app.contenttypes.content import Document, Collection
 
 from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateAction
-from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateEditForm
+from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateAddFormView
+from sc.contentrules.groupbydate.actions.groupbydate import GroupByDateEditFormView
 
 from sc.contentrules.groupbydate.testing import INTEGRATION_TESTING
 
 
+@implementer(IObjectEvent)
 class DummyEvent(object):
-    implements(IObjectEvent)
 
     def __init__(self, object):
         self.object = object
 
 
-class TestGroupByDateAction(unittest.TestCase):
+class TestGroupByDateAction(ContentRulesTestCase):
 
     layer = INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
+        self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
         self.portal.invokeFactory('Folder', 'target')
         self.portal.invokeFactory('Folder', 'folder')
+
         self.folder = self.portal['folder']
         self.folder.invokeFactory('Document', 'd1')
         self.folder.d1.setEffectiveDate(DateTime('2009/04/22'))
         self.folder.invokeFactory('Folder', 'relativeTarget')
-        o = Document('cmf', 'CMF Content', '', '', '')
+        o = Document('doc', 'Document Content', '', '', '')
         o.setEffectiveDate(DateTime('2009/04/22'))
-        self.folder._setObject('cmf', o, suppress_events=True)
+        self.folder._setObject('doc', o, suppress_events=True)
 
     def testRegistered(self):
         element = getUtility(IRuleAction,
@@ -67,13 +70,15 @@ class TestGroupByDateAction(unittest.TestCase):
         storage[u'foo'] = Rule()
         rule = self.portal.restrictedTraverse('++rule++foo')
 
-        adding = getMultiAdapter((rule, self.portal.REQUEST),
-                                 name='+action')
-        addview = getMultiAdapter((adding, self.portal.REQUEST),
-                                  name=element.addview)
+        adding = getMultiAdapter((rule, self.request), name='+action')
+        addview = getMultiAdapter((adding, self.request), name=element.addview)
+        self.assertTrue(isinstance(addview, GroupByDateAddFormView))
 
-        addview.createAndAdd(data={'base_folder': '/target',
-                                   'structure': 'ymd'})
+        addview.form_instance.update()
+        content = addview.form_instance.create(
+            data={'base_folder': '/target',
+                  'structure': 'ymd'})
+        addview.form_instance.add(content)
 
         e = rule.actions[0]
         self.assertIsInstance(e, GroupByDateAction)
@@ -85,20 +90,20 @@ class TestGroupByDateAction(unittest.TestCase):
         e = GroupByDateAction()
         editview = getMultiAdapter((e, self.folder.REQUEST),
                                    name=element.editview)
-        self.assertIsInstance(editview, GroupByDateEditForm)
+        self.assertIsInstance(editview, GroupByDateEditFormView)
 
     def testActionSummary(self):
         e = GroupByDateAction()
         e.base_folder = '/target'
         e.container = 'Folder'
         e.roles = set(['Reader', ])
-        summary = (u"Move the item under ${base_folder} using ${structure} "
-                   u"structure")
+        summary = ("Move the item under ${base_folder} using ${structure} "
+                   "structure")
         self.assertEqual(summary, e.summary)
 
     def testExecute(self):
         e = GroupByDateAction()
-        e.base_folder = '/target'
+        e.base_folder = self.portal.target.UID()  # '/target'
         e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
@@ -106,8 +111,7 @@ class TestGroupByDateAction(unittest.TestCase):
         self.assertTrue(ex())
 
         self.assertNotIn('d1', self.folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                         e.base_folder[1:])
+        target_folder = self.portal.unrestrictedTraverse('target/2009/04/22')
         self.assertIn('d1', target_folder.objectIds())
 
     def testExecuteWithError(self):
@@ -126,16 +130,15 @@ class TestGroupByDateAction(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Member', ])
 
         e = GroupByDateAction()
-        e.base_folder = '/target'
+        e.base_folder =  self.portal.target.UID()   # '/target'
         e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertEqual(True, ex())
+        self.assertTrue(ex())
 
         self.assertNotIn('d1', self.folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                         e.base_folder[1:])
+        target_folder = self.portal.unrestrictedTraverse('target/2009/04/22')
         self.assertIn('d1', target_folder.objectIds())
 
     def testExecuteWithNamingConflict(self):
@@ -152,7 +155,7 @@ class TestGroupByDateAction(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Member', ])
 
         e = GroupByDateAction()
-        e.base_folder = '/target'
+        e.base_folder = self.portal.target.UID()  # '/target'
         e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
@@ -177,7 +180,7 @@ class TestGroupByDateAction(unittest.TestCase):
         target_folder.d1.setEffectiveDate(DateTime('2009/04/22'))
 
         e = GroupByDateAction()
-        e.base_folder = '/target'
+        e.base_folder = self.portal.target.UID()   # '/target'
         e.container = 'Folder'
 
         ex = getMultiAdapter((target_folder, e, DummyEvent(target_folder.d1)),
@@ -189,9 +192,11 @@ class TestGroupByDateAction(unittest.TestCase):
     def testExecuteWithRelativePath(self):
         ''' Execute the action with a valid relative path
         '''
+        relativeTarget = self.folder.relativeTarget
+
         e = GroupByDateAction()
         # A sibling folder named relativeTarget
-        e.base_folder = './relativeTarget'
+        e.base_folder = relativeTarget.UID()  # './relativeTarget'
         e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
@@ -199,43 +204,20 @@ class TestGroupByDateAction(unittest.TestCase):
         self.assertTrue(ex())
 
         self.assertNotIn('d1', self.folder.objectIds())
-        relativeTarget = self.folder.relativeTarget
+
         target_folder = relativeTarget.unrestrictedTraverse('2009/04/22')
         self.assertIn('d1', target_folder.objectIds())
-
-    def testExecuteWithLongRelativePath(self):
-        ''' Execute the action with a valid relative path
-        '''
-        folder = self.folder['relativeTarget']
-        folder.invokeFactory('Document', 'd2')
-        folder.d2.setEffectiveDate(DateTime('2009/04/22'))
-        e = GroupByDateAction()
-        # A sibling folder named relativeTarget
-        e.base_folder = '../../'
-        e.container = 'Folder'
-
-        ex = getMultiAdapter((folder, e, DummyEvent(folder.d2)), IExecutable)
-        self.assertTrue(ex())
-
-        self.assertNotIn('d2', folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('2009/04/22')
-        self.assertIn('d2', target_folder.objectIds())
 
     def testExecuteWithoutBaseFolder(self):
         ''' Execute the action without a path
         '''
         e = GroupByDateAction()
-        # A sibling folder named relativeTarget
         e.base_folder = ''
         e.container = 'Folder'
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
-        self.assertTrue(ex())
-
-        self.assertNotIn('d1', self.folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('2009/04/22')
-        self.assertIn('d1', target_folder.objectIds())
+        self.assertFalse(ex())
 
     def testExecuteWithoutEffectiveDate(self):
         ''' Execute the action without an effective date
@@ -244,12 +226,11 @@ class TestGroupByDateAction(unittest.TestCase):
         folder.invokeFactory('Document', 'd2')
         e = GroupByDateAction()
         # A sibling folder named relativeTarget
-        e.base_folder = '../'
+        e.base_folder = self.folder.UID()  # '../' from 'relativeTarget'
         e.container = 'Folder'
 
         ex = getMultiAdapter((folder, e, DummyEvent(folder.d2)), IExecutable)
         self.assertTrue(ex())
-
         self.assertNotIn('d2', folder.objectIds())
         path = DateTime().strftime('%Y/%m/%d')
         target_folder = self.folder.unrestrictedTraverse(path)
@@ -269,42 +250,24 @@ class TestGroupByDateAction(unittest.TestCase):
 
         self.assertIn('d1', self.folder.objectIds())
 
-    def testExecuteFromPloneSite(self):
-        ''' Execute the action with a non existent relative path
-        '''
+    def xtestExecuteDifferentContainer(self):
         e = GroupByDateAction()
-        self.portal.invokeFactory('Document', 'd2')
-        self.portal.d2.setEffectiveDate(DateTime('2009/04/22'))
-        # An non existant folder
-        e.base_folder = '..'
-        e.container = 'Folder'
-
-        ex = getMultiAdapter((self.portal, e, DummyEvent(self.portal.d2)),
-                             IExecutable)
-        self.assertTrue(ex())
-
-        target_folder = self.portal.unrestrictedTraverse('2009/04/22')
-        self.assertIn('d2', target_folder.objectIds())
-
-    def testExecuteDifferentContainer(self):
-        e = GroupByDateAction()
-        e.base_folder = '/target'
-        e.container = 'Topic'
+        e.base_folder = self.portal.target.UID()  # '/target'
+        e.container = 'Collection'  # it is no more a container!
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(self.folder.d1)),
                              IExecutable)
         self.assertTrue(ex())
 
         self.assertNotIn('d1', self.folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                         e.base_folder[1:])
-        self.assertIsInstance(target_folder, ATTopic)
+        target_folder = self.portal.unrestrictedTraverse('target/2009/04/22')
+        self.assertIsInstance(target_folder, Collection)
 
     def testStrftimeFmt(self):
         ''' Execute the action using a valid strftime formatting string
         '''
         e = GroupByDateAction()
-        e.base_folder = '/target'
+        e.base_folder = self.portal.target.UID()  # '/target'
         e.structure = '%Y/%m'
         e.container = 'Folder'
 
@@ -313,15 +276,14 @@ class TestGroupByDateAction(unittest.TestCase):
         self.assertTrue(ex())
 
         self.assertNotIn('d1', self.folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('%s/2009/04' %
-                                                         e.base_folder[1:])
+        target_folder = self.portal.unrestrictedTraverse('target/2009/04')
         self.assertIn('d1', target_folder.objectIds())
 
     def testWrongStrftimeFmt(self):
         ''' Execute the action using a typoed strftime formatting string
         '''
         e = GroupByDateAction()
-        e.base_folder = '/target'
+        e.base_folder = self.portal.target.UID()  # '/target'
         e.structure = 'Y/%m'
         e.container = 'Folder'
 
@@ -330,27 +292,25 @@ class TestGroupByDateAction(unittest.TestCase):
         self.assertTrue(ex())
 
         self.assertNotIn('d1', self.folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('%s/Y/04' %
-                                                         e.base_folder[1:])
+        target_folder = self.portal.unrestrictedTraverse('target/Y/04')
         self.assertIn('d1', target_folder.objectIds())
 
-    def testExecutionOnCMFContent(self):
+    def testExecutionOnDocument(self):
         ''' Tests if the rules works with CMF Content
         '''
         e = GroupByDateAction()
-        e.base_folder = '/target'
+        e.base_folder = self.portal.target.UID()  # '/target'
         e.container = 'Folder'
 
-        o = self.folder['cmf']
+        o = self.folder['doc'] # -> doc! rename test method
 
         ex = getMultiAdapter((self.folder, e, DummyEvent(o)),
                              IExecutable)
         self.assertTrue(ex())
 
-        self.assertNotIn('cmf', self.folder.objectIds())
-        target_folder = self.portal.unrestrictedTraverse('%s/2009/04/22' %
-                                                         e.base_folder[1:])
-        self.assertIn('cmf', target_folder.objectIds())
+        self.assertNotIn('doc', self.folder.objectIds())
+        target_folder = self.portal.unrestrictedTraverse('target/2009/04/22')
+        self.assertIn('doc', target_folder.objectIds())
 
     def testFolderNotifyAddedEvent(self):
         from zope.component import adapter
@@ -358,7 +318,7 @@ class TestGroupByDateAction(unittest.TestCase):
         from zope.lifecycleevent import ObjectAddedEvent
 
         e = GroupByDateAction()
-        e.base_folder = '/target'
+        e.base_folder = self.portal.target.UID()  # '/target'
         e.container = 'Folder'
 
         class Handler(object):

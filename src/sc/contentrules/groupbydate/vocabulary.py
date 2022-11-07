@@ -6,7 +6,7 @@ from Products.CMFCore.interfaces._content import IFolderish
 from Products.CMFCore.utils import getToolByName
 from sc.contentrules.groupbydate.config import RELPATHVOC
 from zope.component import queryUtility
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 
@@ -56,11 +56,11 @@ class RelPathQSTSourceView(QuerySearchableTextSourceView):
                              parent_token=parent_token)
 
 
+@implementer(IVocabularyFactory)
 class ContainerSearcher(object):
     """ Check for all availables/allowed-addable folderish
         content types in the site.
     """
-    implements(IVocabularyFactory)
 
     def __call__(self, context):
         context = getattr(context, 'context', context)
